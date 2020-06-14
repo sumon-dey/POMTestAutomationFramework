@@ -11,7 +11,7 @@ public class SignInPage extends TestBase {
 	 * Page Objects (Object Repository)
 	 ***************************/
 	@FindBy(xpath = "//img[@title='Ultimate QA']")
-	private WebElement logoImage;
+	private WebElement signInPageLogo;
 
 	@FindBy(xpath = "//h1[text()='Welcome Back!']")
 	private WebElement welcomeMessage;

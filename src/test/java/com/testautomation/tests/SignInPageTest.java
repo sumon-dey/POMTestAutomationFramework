@@ -25,15 +25,17 @@ public class SignInPageTest extends TestBase {
 	public void tearDown() {
 		driver.quit();
 	}
-	
-	@Test(priority=1)
+
+	@Test(priority = 1)
 	public void validateSignInPageTitle() {
-		String pageTitle=driver.getTitle();
-		Assert.assertEquals(pageTitle, "Ultimate QA");
+		driver.get(prop.getProperty("signInPageUrl"));
+		String signInPageTitle = driver.getTitle();
+		Assert.assertEquals(signInPageTitle, "Ultimate QA");
 	}
 
-	@Test(priority=2)
+	@Test(priority = 2)
 	public void loginFunctionality() {
+		driver.get(prop.getProperty("signInUrl"));
 		signInPage.login(prop.getProperty("email"), prop.getProperty("password"));
 	}
 
