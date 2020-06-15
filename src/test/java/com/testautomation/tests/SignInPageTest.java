@@ -35,7 +35,7 @@ public class SignInPageTest extends TestBase {
 
 	@Test(priority = 2)
 	public void loginFunctionalityTest() {
-		driver.get(prop.getProperty("signInUrl"));
+		driver.get(prop.getProperty("signInPageUrl"));
 		signInPage.login(prop.getProperty("email"), prop.getProperty("password"));
 	}
 
