@@ -25,6 +25,7 @@ tmp/**/*
 *.swp
 *~.nib
 *.properties
+*.xlsx
 .classpath
 .settings/
 .loadpath
