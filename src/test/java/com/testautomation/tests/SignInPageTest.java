@@ -33,20 +33,26 @@ public class SignInPageTest extends TestBase {
 	@Test(priority = 1)
 	public void validateSignInPageTitleTest() {
 		driver.get(prop.getProperty("signInPageUrl"));
+		Util.takeScreenshot();
 		String signInPageTitle = driver.getTitle();
+		Util.takeScreenshot();
 		Assert.assertEquals(signInPageTitle, "Ultimate QA", "SignIn page title is not correct");
 	}
 
 	@Test(priority = 2)
 	public void loginFunctionalityTest() {
 		driver.get(prop.getProperty("signInPageUrl"));
+		Util.takeScreenshot();
 		signInPage.login(prop.getProperty("email"), prop.getProperty("password"));
+		Util.takeScreenshot();
 	}
 
 	@Test(priority = 3, dataProvider = "getSignInTestData")
 	public void loginFunctionalityTestWithMultipleData(String email, String password) {
 		driver.get(prop.getProperty("signInPageUrl"));
+		Util.takeScreenshot();
 		signInPage.login(email, password);
+		Util.takeScreenshot();
 	}
 
 	@DataProvider

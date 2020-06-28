@@ -1,5 +1,7 @@
 package com.testautomation.util;
 
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
@@ -133,6 +135,7 @@ public class WebEventListener extends TestBase implements WebDriverEventListener
 	@Override
 	public void onException(Throwable throwable, WebDriver driver) {
 		System.out.println("Exception occured: " + throwable);
+		Util.takeScreenshot();
 	}
 
 	@Override
