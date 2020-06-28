@@ -9,12 +9,16 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import com.testautomation.util.Util;
+import com.testautomation.util.WebEventListener;
 
 public class TestBase {
 	public static WebDriver driver;
 	public static Properties prop;
+	public static EventFiringWebDriver eventFiringWebDriver;
+	public static WebEventListener webEventListener;
 
 	public TestBase() {
 		try {
@@ -45,6 +49,10 @@ public class TestBase {
 			driver = new FirefoxDriver();
 			break;
 		}
+		eventFiringWebDriver = new EventFiringWebDriver(driver);
+		webEventListener = new WebEventListener();
+		eventFiringWebDriver.register(webEventListener);
+		driver = eventFiringWebDriver;
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().pageLoadTimeout(Util.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
