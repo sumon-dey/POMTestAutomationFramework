@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Ultimate QA Test Automation Test Suite">
+	<listeners>
+		<listener
+			class-name="com.testautomation.reports.ExtentReportListener"></listener>
+	</listeners>
 	<test name="Ultimate QA Test Automation Test Cases">
 		<classes>
 			<class name="com.testautomation.tests.SignInPageTest" />
