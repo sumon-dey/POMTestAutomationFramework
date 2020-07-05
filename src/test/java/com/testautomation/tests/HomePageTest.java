@@ -9,12 +9,13 @@ import org.testng.annotations.Test;
 import com.testautomation.base.TestBase;
 import com.testautomation.pages.HomePage;
 import com.testautomation.util.Util;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class HomePageTest extends TestBase {
 
 	public HomePage homePage;
-	private static final Logger logger = Logger.getLogger(HomePageTest.class);
+	private static final Logger logger = LogManager.getLogger(HomePageTest.class);
 
 	public HomePageTest() {
 		super();
