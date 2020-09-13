@@ -7,8 +7,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -29,7 +28,7 @@ public class TestBase {
 	public static Properties prop;
 	public static EventFiringWebDriver eventFiringWebDriver;
 	public static WebEventListener webEventListener;
-	private static final Logger logger = LogManager.getLogger(TestBase.class);
+	private static final Logger logger = Logger.getLogger(TestBase.class);
 
 	public TestBase() {
 		try {

@@ -5,8 +5,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
 import com.testautomation.base.TestBase;
 import com.testautomation.pages.SignInPage;
 import com.testautomation.util.Util;
@@ -15,7 +14,7 @@ public class SignInPageTest extends TestBase {
 
 	public SignInPage signInPage;
 	String sheetName = "DataSheet";
-	private static final Logger logger = LogManager.getLogger(SignInPageTest.class);
+	private static final Logger logger = Logger.getLogger(SignInPageTest.class);
 
 	public SignInPageTest() {
 		super();
