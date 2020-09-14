@@ -47,3 +47,4 @@ target/
 /test-output
 /screenshots
 /logs
+/allure-results

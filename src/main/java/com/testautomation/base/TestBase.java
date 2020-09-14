@@ -17,6 +17,8 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 import com.testautomation.util.Util;
 import com.testautomation.util.WebEventListener;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 /**
  * Base class
  * 
@@ -59,6 +61,7 @@ public class TestBase {
 		String browserName = prop.getProperty("browser");
 		System.out.println("Browser launched is: " + browserName);
 		logger.info("Browser launched is: " + browserName);
+		// WebDriverManager.chromedriver().setup();
 		switch (browserName.toLowerCase()) {
 		case "chrome":
 			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
