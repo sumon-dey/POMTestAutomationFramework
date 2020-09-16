@@ -1,6 +1,7 @@
 package com.testautomation.tests;
 
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -9,7 +10,6 @@ import org.testng.annotations.Test;
 import com.testautomation.base.TestBase;
 import com.testautomation.pages.HomePage;
 import com.testautomation.util.Util;
-import org.apache.log4j.Logger;
 
 public class HomePageTest extends TestBase {
 
@@ -32,7 +32,7 @@ public class HomePageTest extends TestBase {
 		logger.info("All opened browser instances are closed successfully.");
 	}
 
-	@Test(priority = 1)
+	@Test(priority = 1, retryAnalyzer = com.testautomation.util.RetryAnalyzer.class)
 	public void validateHomePageTitleTest() {
 		driver.get(prop.getProperty("homePageUrl"));
 		System.out.println("Opened URL: " + prop.getProperty("homePageUrl"));

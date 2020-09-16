@@ -4,6 +4,8 @@
 	<listeners>
 		<listener
 			class-name="com.testautomation.reports.ExtentReportListener"></listener>
+		<listener
+			class-name="com.testautomation.util.AnnotationTransformer"></listener>
 	</listeners>
 	<test name="Ultimate QA Test Automation Test Cases">
 		<classes>
