@@ -34,9 +34,9 @@ public class HomePageTest extends TestBase {
 
 	@Test(priority = 1, retryAnalyzer = com.testautomation.util.RetryAnalyzer.class)
 	public void validateHomePageTitleTest() {
-		driver.get(prop.getProperty("homePageUrl"));
-		System.out.println("Opened URL: " + prop.getProperty("homePageUrl"));
-		logger.info("Opened URL: " + prop.getProperty("homePageUrl"));
+		driver.get(properties.getProperty("homePageUrl"));
+		System.out.println("Opened URL: " + properties.getProperty("homePageUrl"));
+		logger.info("Opened URL: " + properties.getProperty("homePageUrl"));
 		String homePageTitle = driver.getTitle();
 		logger.info("Homepage title is: " + homePageTitle);
 		Util.takeScreenshot();
@@ -45,9 +45,9 @@ public class HomePageTest extends TestBase {
 
 	@Test(priority = 2)
 	public void validateLogoTextTest() {
-		driver.get(prop.getProperty("homePageUrl"));
-		System.out.println("Opened URL: " + prop.getProperty("homePageUrl"));
-		logger.info("Opened URL: " + prop.getProperty("homePageUrl"));
+		driver.get(properties.getProperty("homePageUrl"));
+		System.out.println("Opened URL: " + properties.getProperty("homePageUrl"));
+		logger.info("Opened URL: " + properties.getProperty("homePageUrl"));
 		Util.takeScreenshot();
 		String homePageLogoText = homePage.getHomePageLogo().getText();
 		logger.info("Logo text is: " + homePageLogoText);
@@ -57,9 +57,9 @@ public class HomePageTest extends TestBase {
 
 	@Test(priority = 3)
 	public void getHomePageContentLinksTextTest() {
-		driver.get(prop.getProperty("homePageUrl"));
-		System.out.println("Opened URL: " + prop.getProperty("homePageUrl"));
-		logger.info("Opened URL: " + prop.getProperty("homePageUrl"));
+		driver.get(properties.getProperty("homePageUrl"));
+		System.out.println("Opened URL: " + properties.getProperty("homePageUrl"));
+		logger.info("Opened URL: " + properties.getProperty("homePageUrl"));
 		Util.takeScreenshot();
 		List<WebElement> homePageContentLinkAsList = homePage.getHomePageContentLinks();
 		Util.takeScreenshot();
