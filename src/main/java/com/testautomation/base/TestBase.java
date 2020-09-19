@@ -149,4 +149,10 @@ public class TestBase {
 		}
 	}
 
+	public void openURL(String url) {
+		driver.get(url);
+		System.out.println("Opened URL: " + properties.getProperty("HomePageUrl"));
+		logger.info("Opened URL: " + properties.getProperty("HomePageUrl"));
+	}
+
 }

@@ -50,9 +50,7 @@ public class SignInPage extends TestBase {
 		PageFactory.initElements(driver, this);
 	}
 
-	// *************************************
-	// Actions on the page
-	// *************************************
+	
 	public void login(String email, String password) {
 		emailTextField.sendKeys(email);
 		passwordTextField.sendKeys(password);

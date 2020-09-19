@@ -36,11 +36,12 @@ public class HomePage extends TestBase {
 		PageFactory.initElements(driver, this);
 	}
 
-	// ***************************************
-	// Actions on the page
-	// ***************************************
-	public WebElement getHomePageLogo() {
-		return homePageLogo;
+	public String getHomePageTitle() {
+		return driver.getTitle();
+	}
+
+	public String getHomePageLogoText() {
+		return homePageLogo.getText();
 	}
 
 	public List<WebElement> getHomePageContentLinks() {
