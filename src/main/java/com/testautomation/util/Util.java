@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Base64;
+
 import org.apache.commons.compress.archivers.dump.InvalidFormatException;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -36,6 +38,16 @@ public class Util extends TestBase {
 		driver.switchTo().frame(webElement);
 	}
 
+	/**
+	 * This utlity method will fetch data from the excel file for data-driven
+	 * testing and return the fetched data as a two-dimensional object array.
+	 * 
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
+	 * @param sheetName
+	 * @return two-dimensional object array
+	 */
 	public static Object[][] getTestData(String sheetName) {
 		FileInputStream fileInputStream = null;
 		try {
@@ -61,7 +73,9 @@ public class Util extends TestBase {
 	}
 
 	/**
-	 * Method to take screenshot
+	 * This utlitiy method will help to take screenshots of the browser whenever
+	 * called and store those inside the "screenshots" folder under the root
+	 * directory.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -79,6 +93,19 @@ public class Util extends TestBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * This method will take Base64 encoded data as input, decode the data and
+	 * return the decoded value
+	 * 
+	 * @param encodedString
+	 * @return decoded value as String
+	 */
+	public static String base64Decoder(String encodedString) {
+		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+		String decodedString = new String(decodedBytes);
+		return decodedString;
 	}
 
 }

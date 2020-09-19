@@ -5,12 +5,18 @@ import org.testng.ITestResult;
 
 public class RetryAnalyzer implements IRetryAnalyzer {
 
-	int counter = 1;
-	int retryLimit = 3;
-
-	// logic to run test cases maximum thrice (if failed)
+	/**
+	 * This overriden method helps to retry executing failing test thrice before
+	 * marking it as failed.
+	 * 
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
+	 */
 	@Override
 	public boolean retry(ITestResult result) {
+		int counter = 1;
+		int retryLimit = 3;
 		if (counter < retryLimit) {
 			counter++;
 			return true;

@@ -5,11 +5,20 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import com.testautomation.base.TestBase;
 
+/**
+ * This class acts as a object repository and consists of the Page Objects
+ * present in the SignIn Page.
+ * 
+ * @author Sumon Dey
+ * @since 13/06/2020
+ * @version 0.1
+ *
+ */
 public class SignInPage extends TestBase {
 
-	/****************************
-	 * Page Objects (Object Repository)
-	 ***************************/
+	// *************************************
+	// Page Objects (Object Repository)
+	// *************************************
 	@FindBy(xpath = "//img[@title='Ultimate QA']")
 	private WebElement signInPageLogo;
 
@@ -34,16 +43,16 @@ public class SignInPage extends TestBase {
 	@FindBy(xpath = "//a[contains(text(),'Create a new account')]")
 	private WebElement createANewAccountLink;
 
-	/****************************
-	 * Initializing the Page Factory
-	 ***************************/
+	// *************************************
+	// Initializing the Page Factory
+	// *************************************
 	public SignInPage() {
 		PageFactory.initElements(driver, this);
 	}
-	
-	/****************************
-	 * Actions on the page
-	 ***************************/
+
+	// *************************************
+	// Actions on the page
+	// *************************************
 	public void login(String email, String password) {
 		emailTextField.sendKeys(email);
 		passwordTextField.sendKeys(password);

@@ -8,11 +8,20 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import com.testautomation.base.TestBase;
 
+/**
+ * This class acts as a object repository and consists of the Page Objects
+ * present in the Home Page.
+ * 
+ * @author Sumon Dey
+ * @since 13/06/2020
+ * @version 0.1
+ *
+ */
 public class HomePage extends TestBase {
 
-	/****************************
-	 * Page Objects (Object Repository)
-	 ***************************/
+	// ***************************************
+	// Page Objects (Object Repository)
+	// ***************************************
 	@FindBy(xpath = "//h1[text()='Automation Practice']")
 	@CacheLookup
 	private WebElement homePageLogo;
@@ -20,16 +29,16 @@ public class HomePage extends TestBase {
 	@FindBy(xpath = "//div[@class='et_pb_text_inner']/ul/li/a")
 	private List<WebElement> homePageContentLinks;
 
-	/****************************
-	 * Initializing the Page Factory
-	 ***************************/
+	// ***************************************
+	// Initializing the Page Factory
+	// ***************************************
 	public HomePage() {
 		PageFactory.initElements(driver, this);
 	}
 
-	/****************************
-	 * Actions on the page
-	 ***************************/
+	// ***************************************
+	// Actions on the page
+	// ***************************************
 	public WebElement getHomePageLogo() {
 		return homePageLogo;
 	}

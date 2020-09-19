@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -64,7 +63,7 @@ public class TestBase {
 
 	/**
 	 * This is a common method which cleans up stream resources after performing
-	 * null check operation.
+	 * null check.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -83,6 +82,9 @@ public class TestBase {
 
 	/**
 	 * This is a common setup method which will form the base to drive the tests.
+	 * Actions include initializing browser drivers, launching browsers (with
+	 * capabilities), calling web events and timeouts.
+	 * 
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020

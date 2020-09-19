@@ -20,12 +20,28 @@ public class HomePageTest extends TestBase {
 		super();
 	}
 
+	/**
+	 * This will run before every test present in the HomePageTest class. Action
+	 * involves setting up the precondition to run the tests
+	 * 
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
+	 */
 	@BeforeMethod
 	public void setUp() {
 		initialization();
 		homePage = new HomePage();
 	}
 
+	/**
+	 * This will run after every test present in the HomePageTest class. Action
+	 * involves the closing of the browser instances.
+	 * 
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
+	 */
 	@AfterMethod
 	public void tearDown() {
 		driver.quit();
