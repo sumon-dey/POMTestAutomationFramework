@@ -1,7 +1,6 @@
 package com.testautomation.tests;
 
 import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -9,6 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.testautomation.base.TestBase;
 import com.testautomation.pages.HomePage;
+import com.testautomation.util.RetryAnalyzer;
 import com.testautomation.util.Util;
 
 public class HomePageTest extends TestBase {
@@ -48,7 +48,7 @@ public class HomePageTest extends TestBase {
 		logger.info("All opened browser instances are closed successfully.");
 	}
 
-	@Test(priority = 1, retryAnalyzer = com.testautomation.util.RetryAnalyzer.class)
+	@Test(priority = 1, retryAnalyzer = RetryAnalyzer.class)
 	public void validateHomePageTitleTest() {
 		openURL(properties.getProperty("HomePageUrl"));
 		Util.takeScreenshot();

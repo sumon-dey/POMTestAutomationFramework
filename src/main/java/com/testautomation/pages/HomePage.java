@@ -1,5 +1,6 @@
 package com.testautomation.pages;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
@@ -44,8 +45,12 @@ public class HomePage extends TestBase {
 		return homePageLogo.getText();
 	}
 
-	public List<WebElement> getHomePageContentLinks() {
-		return homePageContentLinks;
+	public List<String> getHomePageContentLinks() {
+		ArrayList<String> homePageContentLinksText = new ArrayList<>();
+		for (WebElement homePageContentLink : homePageContentLinks) {
+			homePageContentLinksText.add(homePageContentLink.getText());
+		}
+		return homePageContentLinksText;
 	}
 
 }

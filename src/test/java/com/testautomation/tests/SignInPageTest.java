@@ -35,7 +35,6 @@ public class SignInPageTest extends TestBase {
 	@Test(priority = 1)
 	public void validateSignInPageTitleTest() {
 		driver.get(properties.getProperty("SignInPageUrl"));
-		System.out.println("Opened URL: " + properties.getProperty("SignInPageUrl"));
 		logger.info("Opened URL: " + properties.getProperty("SignInPageUrl"));
 		Util.takeScreenshot();
 		String signInPageTitle = driver.getTitle();
@@ -47,12 +46,10 @@ public class SignInPageTest extends TestBase {
 	@Test(priority = 2)
 	public void loginFunctionalityTest() {
 		driver.get(properties.getProperty("SignInPageUrl"));
-		System.out.println("Opened URL: " + properties.getProperty("SignInPageUrl"));
 		logger.info("Opened URL: " + properties.getProperty("SignInPageUrl"));
 		Util.takeScreenshot();
 		signInPage.login(Util.base64Decoder(properties.getProperty("Email")),
 				Util.base64Decoder(properties.getProperty("Password")));
-		System.out.println("Log in is successful in the SignIn Page");
 		logger.info("Log in is successful in the SignIn Page");
 		Util.takeScreenshot();
 	}
@@ -60,11 +57,9 @@ public class SignInPageTest extends TestBase {
 	@Test(priority = 3, dataProvider = "getSignInTestData")
 	public void loginFunctionalityTestWithMultipleData(String email, String password) {
 		driver.get(properties.getProperty("SignInPageUrl"));
-		System.out.println("Opened URL: " + properties.getProperty("SignInPageUrl"));
 		logger.info("Opened URL: " + properties.getProperty("SignInPageUrl"));
 		Util.takeScreenshot();
 		signInPage.login(Util.base64Decoder(email), Util.base64Decoder(password));
-		System.out.println("Log in is successful in the SignIn Page");
 		logger.info("Log in is successful in the SignIn Page");
 		Util.takeScreenshot();
 	}

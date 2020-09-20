@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -38,15 +40,18 @@ public class TestBase {
 	public static EventFiringWebDriver eventFiringWebDriver;
 	public static WebEventListener webEventListener;
 	private static final Logger logger = Logger.getLogger(TestBase.class);
+	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
 	public TestBase() {
 		try {
-			properties = new Properties();
-			file = new File(
-					System.getProperty("user.dir") + "/src/test/resources/com/testautomation/config/config.properties");
-			fileInputStream = new FileInputStream(file);
-			properties.load(fileInputStream);
-			logger.info("Configuration properties file is loaded successfully.");
+			if (properties == null) {
+				properties = new Properties();
+				file = new File(System.getProperty("user.dir")
+						+ "/src/test/resources/com/testautomation/config/config.properties");
+				fileInputStream = new FileInputStream(file);
+				properties.load(fileInputStream);
+				logger.info("Configuration properties file is loaded successfully.");
+			}
 		} catch (FileNotFoundException e) {
 			logger.error("FileNotFoundException while loading the Properties file.");
 			e.printStackTrace();
@@ -70,7 +75,7 @@ public class TestBase {
 	 * @version 0.1
 	 * 
 	 */
-	public static void streamCleanup(Closeable stream) {
+	public void streamCleanup(Closeable stream) {
 		try {
 			if (stream != null) {
 				stream.close();
@@ -90,10 +95,9 @@ public class TestBase {
 	 * @since 13/06/2020
 	 * @version 0.1
 	 */
-	public static void initialization() {
+	public void initialization() {
 		try {
 			String browserName = properties.getProperty("Browser");
-			System.out.println("Launched browser is: " + browserName);
 			logger.info("Launched browser is: " + browserName);
 			// Using "WebDriverManager" to set-up the browser initialization process
 			// WebDriverManager.chromedriver().setup();
@@ -114,7 +118,6 @@ public class TestBase {
 					prefs.put("download.default_directory", "./downloads");
 					chromeOptions.setExperimentalOption("prefs", prefs);
 					driver = new ChromeDriver(chromeOptions);
-					System.out.println("ChromeDriver has started.");
 					logger.info("ChromeDriver has started.");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -124,15 +127,13 @@ public class TestBase {
 				try {
 					System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
 					driver = new FirefoxDriver();
-					System.out.println("FirefoxDriver is started.");
-					logger.info("FirefoxDriver is started.");
+					logger.info("FirefoxDriver has started.");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
 			default:
-				System.out.println(browserName + " is not supported.");
-				logger.info(browserName + " is not supported.");
+				logger.warn(browserName + " is not supported.");
 				break;
 			}
 			eventFiringWebDriver = new EventFiringWebDriver(driver);
@@ -140,7 +141,6 @@ public class TestBase {
 			eventFiringWebDriver.register(webEventListener);
 			driver = eventFiringWebDriver;
 			driver.manage().deleteAllCookies();
-			System.out.println("All cookies are deleted.");
 			logger.info("All cookies are deleted.");
 			driver.manage().timeouts().pageLoadTimeout(Util.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
 			driver.manage().timeouts().implicitlyWait(Util.IMPLICIT_WAIT, TimeUnit.SECONDS);
@@ -151,8 +151,10 @@ public class TestBase {
 
 	public void openURL(String url) {
 		driver.get(url);
-		System.out.println("Opened URL: " + properties.getProperty("HomePageUrl"));
-		logger.info("Opened URL: " + properties.getProperty("HomePageUrl"));
+	}
+
+	public static String dateTime() {
+		return "[ " + simpleDateFormat.format(new Timestamp(System.currentTimeMillis())) + " ] ";
 	}
 
 }
