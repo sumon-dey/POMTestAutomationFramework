@@ -1,13 +1,12 @@
 package com.testautomation.pages;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import com.testautomation.base.TestBase;
+import com.testautomation.base.BaseSteps;
+import lombok.Getter;
 
 /**
  * This class acts as a object repository and consists of the Page Objects
@@ -18,39 +17,27 @@ import com.testautomation.base.TestBase;
  * @version 0.1
  *
  */
-public class HomePage extends TestBase {
+@Getter
+public class HomePage extends BaseSteps {
 
 	// ***************************************
 	// Page Objects (Object Repository)
 	// ***************************************
-	@FindBy(xpath = "//h1[text()='Automation Practice']")
+	@FindBy(xpath = "//div[@class='header-content']/h1")
 	@CacheLookup
-	private WebElement homePageLogo;
+	private WebElement homePageHeading;
+
+	@FindBy(xpath = "//div[@class='header-content']/span")
+	private WebElement homePageSubHeading;
 
 	@FindBy(xpath = "//div[@class='et_pb_text_inner']/ul/li/a")
-	private List<WebElement> homePageContentLinks;
+	private List<WebElement> homePageAllContentLinks;
 
 	// ***************************************
 	// Initializing the Page Factory
 	// ***************************************
 	public HomePage() {
 		PageFactory.initElements(driver, this);
-	}
-
-	public String getHomePageTitle() {
-		return driver.getTitle();
-	}
-
-	public String getHomePageLogoText() {
-		return homePageLogo.getText();
-	}
-
-	public List<String> getHomePageContentLinks() {
-		ArrayList<String> homePageContentLinksText = new ArrayList<>();
-		for (WebElement homePageContentLink : homePageContentLinks) {
-			homePageContentLinksText.add(homePageContentLink.getText());
-		}
-		return homePageContentLinksText;
 	}
 
 }

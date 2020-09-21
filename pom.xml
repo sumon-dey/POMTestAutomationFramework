@@ -142,9 +142,12 @@
 			<version>1.7.30</version>
 			<scope>test</scope>
 		</dependency>
-
-
-
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
 		<!-- WebDriver Manager to manage the browser driver dependencies -->
 		<dependency>
 			<groupId>io.github.bonigarcia</groupId>

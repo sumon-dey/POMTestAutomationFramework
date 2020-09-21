@@ -2,14 +2,14 @@ package com.testautomation.unitTests;
 
 import org.testng.annotations.Test;
 
-import com.testautomation.base.TestBase;
+import com.testautomation.base.BaseSteps;
 
 public class UnitTests {
 	
 	@Test
 	public  void launchBrowser() {
-		TestBase testBase=new TestBase();
-		testBase.initialization();
+		BaseSteps testBase=new BaseSteps();
+		testBase.testInitialization();
 	}
 
 }

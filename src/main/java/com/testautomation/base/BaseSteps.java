@@ -1,30 +1,27 @@
 package com.testautomation.base;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
-import org.apache.log4j.Logger;
 import com.testautomation.util.Util;
 import com.testautomation.util.WebEventListener;
-import org.openqa.selenium.Proxy;
 
 /**
- * This is a base class for the tests and acts as a super class for all the test
- * classes. During its object creation, its constructor will load the
- * configuration properties files.
+ * This is a base class for the tests. It consists of actions which are common
+ * to all the tests. All the test classes will inherit this class. During its
+ * object creation, the constructor of this class will load the configuration
+ * properties files.
  * 
  * @author Sumon Dey
  * @since 13/06/2020
@@ -32,17 +29,20 @@ import org.openqa.selenium.Proxy;
  *
  *
  */
-public class TestBase {
+public class BaseSteps {
 	public static WebDriver driver;
-	public static Properties properties;
+	public Properties properties;
 	private FileInputStream fileInputStream;
 	private File file;
 	public static EventFiringWebDriver eventFiringWebDriver;
 	public static WebEventListener webEventListener;
-	private static final Logger logger = Logger.getLogger(TestBase.class);
-	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+	private static final Logger logger = Logger.getLogger(BaseSteps.class);
 
-	public TestBase() {
+	public BaseSteps() {
+
+	}
+
+	public void loadConfigProperties() {
 		try {
 			if (properties == null) {
 				properties = new Properties();
@@ -50,7 +50,7 @@ public class TestBase {
 						+ "/src/test/resources/com/testautomation/config/config.properties");
 				fileInputStream = new FileInputStream(file);
 				properties.load(fileInputStream);
-				logger.info("Configuration properties file is loaded successfully.");
+				logger.debug("Configuration properties file is loaded successfully.");
 			}
 		} catch (FileNotFoundException e) {
 			logger.error("FileNotFoundException while loading the Properties file.");
@@ -62,26 +62,7 @@ public class TestBase {
 			logger.error("Properties file could not be loaded.");
 			e.printStackTrace();
 		} finally {
-			streamCleanup(fileInputStream);
-		}
-	}
-
-	/**
-	 * This is a common method which cleans up stream resources after performing
-	 * null check.
-	 * 
-	 * @author Sumon Dey
-	 * @since 13/06/2020
-	 * @version 0.1
-	 * 
-	 */
-	public void streamCleanup(Closeable stream) {
-		try {
-			if (stream != null) {
-				stream.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			Util.streamCleanup(fileInputStream);
 		}
 	}
 
@@ -95,10 +76,10 @@ public class TestBase {
 	 * @since 13/06/2020
 	 * @version 0.1
 	 */
-	public void initialization() {
+	public void testInitialization() {
 		try {
 			String browserName = properties.getProperty("Browser");
-			logger.info("Launched browser is: " + browserName);
+			logger.debug("Launched browser is: " + browserName);
 			// Using "WebDriverManager" to set-up the browser initialization process
 			// WebDriverManager.chromedriver().setup();
 			switch (browserName.toLowerCase()) {
@@ -118,7 +99,7 @@ public class TestBase {
 					prefs.put("download.default_directory", "./downloads");
 					chromeOptions.setExperimentalOption("prefs", prefs);
 					driver = new ChromeDriver(chromeOptions);
-					logger.info("ChromeDriver has started.");
+					logger.debug("ChromeDriver has started.");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -127,7 +108,7 @@ public class TestBase {
 				try {
 					System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
 					driver = new FirefoxDriver();
-					logger.info("FirefoxDriver has started.");
+					logger.debug("FirefoxDriver has started.");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -149,12 +130,17 @@ public class TestBase {
 		}
 	}
 
+	public void testCleanUp() {
+		driver.quit();
+		logger.info("All opened browser instances are closed successfully.");
+	}
+
 	public void openURL(String url) {
 		driver.get(url);
 	}
 
-	public static String dateTime() {
-		return "[ " + simpleDateFormat.format(new Timestamp(System.currentTimeMillis())) + " ] ";
+	public String getPageTitle() {
+		return driver.getTitle();
 	}
 
 }

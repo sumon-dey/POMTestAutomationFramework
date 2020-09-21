@@ -3,7 +3,9 @@ package com.testautomation.pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import com.testautomation.base.TestBase;
+import com.testautomation.base.BaseSteps;
+
+import lombok.Getter;
 
 /**
  * This class acts as a object repository and consists of the Page Objects
@@ -14,7 +16,8 @@ import com.testautomation.base.TestBase;
  * @version 0.1
  *
  */
-public class SignInPage extends TestBase {
+@Getter
+public class LoginPage extends BaseSteps {
 
 	// *************************************
 	// Page Objects (Object Repository)
@@ -46,14 +49,8 @@ public class SignInPage extends TestBase {
 	// *************************************
 	// Initializing the Page Factory
 	// *************************************
-	public SignInPage() {
+	public LoginPage() {
 		PageFactory.initElements(driver, this);
 	}
 
-	
-	public void login(String email, String password) {
-		emailTextField.sendKeys(email);
-		passwordTextField.sendKeys(password);
-		signInButton.click();
-	}
 }

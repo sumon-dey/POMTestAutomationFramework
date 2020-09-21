@@ -6,9 +6,9 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverEventListener;
-import com.testautomation.base.TestBase;
+import com.testautomation.base.BaseSteps;
 
-public class WebEventListener extends TestBase implements WebDriverEventListener {
+public class WebEventListener extends BaseSteps implements WebDriverEventListener {
 
 	private static final Logger logger = Logger.getLogger(WebEventListener.class);
 
@@ -34,62 +34,62 @@ public class WebEventListener extends TestBase implements WebDriverEventListener
 
 	@Override
 	public void beforeNavigateTo(String url, WebDriver driver) {
-		logger.info("Opening URL: " + url);
+		logger.debug("Opening URL: " + url);
 	}
 
 	@Override
 	public void afterNavigateTo(String url, WebDriver driver) {
-		logger.info("Opened URL: " + url);
+		logger.debug("Opened URL: " + url);
 	}
 
 	@Override
 	public void beforeNavigateBack(WebDriver driver) {
-		logger.info("Navigating back to the previous page");
+		logger.debug("Navigating back to the previous page");
 	}
 
 	@Override
 	public void afterNavigateBack(WebDriver driver) {
-		logger.info("Navigated back to the previous page");
+		logger.debug("Navigated back to the previous page");
 	}
 
 	@Override
 	public void beforeNavigateForward(WebDriver driver) {
-		logger.info("Navigating forward to the next page");
+		logger.debug("Navigating forward to the next page");
 	}
 
 	@Override
 	public void afterNavigateForward(WebDriver driver) {
-		logger.info("Navigated forward to the next page");
+		logger.debug("Navigated forward to the next page");
 	}
 
 	@Override
 	public void beforeNavigateRefresh(WebDriver driver) {
-		logger.info("Refrehing Page...");
+		logger.debug("Refreshing Page...");
 	}
 
 	@Override
 	public void afterNavigateRefresh(WebDriver driver) {
-		logger.info("Page Refreshed");
+		logger.debug("Page Refreshed");
 	}
 
 	@Override
 	public void beforeFindBy(By by, WebElement element, WebDriver driver) {
-		logger.info("Trying to find Element By: " + by.toString());
+		logger.debug("Trying to find Element By: " + by.toString());
 	}
 
 	@Override
 	public void afterFindBy(By by, WebElement element, WebDriver driver) {
-		logger.info("Successfuly found Element By: " + by.toString());
+		logger.debug("Successfuly found Element By: " + by.toString());
 	}
 
 	@Override
 	public void beforeClickOn(WebElement element, WebDriver driver) {
-		logger.info("Trying to click on: " + element.toString());
+		logger.debug("Trying to click on: " + element.toString());
 	}
 
 	@Override
 	public void afterClickOn(WebElement element, WebDriver driver) {
-		logger.info("Successfully clicked on: " + element.toString());
+		logger.debug("Successfully clicked on: " + element.toString());
 	}
 
 	@Override
@@ -124,13 +124,13 @@ public class WebEventListener extends TestBase implements WebDriverEventListener
 
 	@Override
 	public void onException(Throwable throwable, WebDriver driver) {
-		logger.info("Exception occured: " + throwable);
+		logger.error("Exception occured: " + throwable);
 		Util.takeScreenshot();
 	}
 
 	@Override
 	public <X> void beforeGetScreenshotAs(OutputType<X> target) {
-		logger.info("Taking Screenshot...");
+		logger.debug("Taking Screenshot...");
 	}
 
 	@Override

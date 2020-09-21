@@ -1,9 +1,12 @@
 package com.testautomation.util;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 
 import org.apache.commons.compress.archivers.dump.InvalidFormatException;
@@ -15,15 +18,16 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
-import com.testautomation.base.TestBase;
+import com.testautomation.base.BaseSteps;
 
-public class Util extends TestBase {
+public class Util extends BaseSteps {
 
 	public static long PAGE_LOAD_TIMEOUT = 80;
 	public static long IMPLICIT_WAIT = 10;
 	static String TESTDATA_SHEET_PATH = "./src/test/resources/com/testautomation/testdata/TestData.xlsx";
 	static Workbook workbook;
 	static Sheet sheet;
+	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 	private static final Logger logger = Logger.getLogger(Util.class);
 
 	public void switchToFrame(int index) {
@@ -106,6 +110,29 @@ public class Util extends TestBase {
 		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
 		String decodedString = new String(decodedBytes);
 		return decodedString;
+	}
+
+	public static String dateTimeFormatter() {
+		return "[ " + simpleDateFormat.format(new Timestamp(System.currentTimeMillis())) + " ] ";
+	}
+
+	/**
+	 * This is a common method which cleans up stream resources after performing
+	 * null check.
+	 * 
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
+	 * 
+	 */
+	public static void streamCleanup(Closeable stream) {
+		try {
+			if (stream != null) {
+				stream.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
