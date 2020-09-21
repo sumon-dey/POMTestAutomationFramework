@@ -90,6 +90,8 @@ public class BaseSteps {
 					// setting up chromeDriver-specific capabilities to configure a ChromeDriver
 					// session
 					chromeOptions.addArguments("start-maximized");
+					chromeOptions.addArguments("--disable-extensions");
+					chromeOptions.addArguments("--disable-plugins");
 					// WebDriver proxy capability can be added too like below:
 					// Proxy proxy = new Proxy();
 					// proxy.setHttpProxy("myhttpproxy:3337");

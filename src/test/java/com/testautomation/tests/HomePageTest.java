@@ -43,8 +43,7 @@ public class HomePageTest {
 	}
 
 	// Scenario 1
-	// To an user, HomePage headings and title should get correctly displayed.
-	@Test(priority = 1, retryAnalyzer = RetryAnalyzer.class)
+	@Test(description = "To an user, HomePage headings and title should get correctly displayed.", priority = 1, retryAnalyzer = RetryAnalyzer.class)
 	public void homePage_HeadingAndTitle_Test() {
 		homePageSteps.openURL(homePageSteps.properties.getProperty("HomePageUrl"));
 		Util.takeScreenshot();
