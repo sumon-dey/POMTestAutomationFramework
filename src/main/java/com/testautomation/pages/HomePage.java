@@ -9,8 +9,8 @@ import com.testautomation.base.BaseSteps;
 import lombok.Getter;
 
 /**
- * This class acts as a object repository and consists of the Page Objects
- * present in the Home Page.
+ * This class acts as a object repository (Page Object) and consists of the Page
+ * Objects present in the Home Page.
  * 
  * @author Sumon Dey
  * @since 13/06/2020

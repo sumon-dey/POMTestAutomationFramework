@@ -79,7 +79,7 @@ public class WebEventListener extends BaseSteps implements WebDriverEventListene
 
 	@Override
 	public void afterFindBy(By by, WebElement element, WebDriver driver) {
-		logger.debug("Successfuly found Element By: " + by.toString());
+		logger.debug("Successfully found Element By: " + by.toString());
 	}
 
 	@Override

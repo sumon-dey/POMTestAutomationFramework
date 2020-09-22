@@ -18,10 +18,8 @@ import com.testautomation.util.Util;
 import com.testautomation.util.WebEventListener;
 
 /**
- * This is a base class for the tests. It consists of actions which are common
- * to all the tests. All the test classes will inherit this class. During its
- * object creation, the constructor of this class will load the configuration
- * properties files.
+ * This is a base class for the test steps. It consists of actions which are
+ * common to the test steps. All the test classes will inherit this class.
  * 
  * @author Sumon Dey
  * @since 13/06/2020
@@ -42,6 +40,13 @@ public class BaseSteps {
 
 	}
 
+	/**
+	 * This method will load the configuration files.
+	 * 
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
+	 */
 	public void loadConfigProperties() {
 		try {
 			if (properties == null) {
@@ -53,13 +58,14 @@ public class BaseSteps {
 				logger.debug("Configuration properties file is loaded successfully.");
 			}
 		} catch (FileNotFoundException e) {
-			logger.error("FileNotFoundException while loading the Properties file.");
+			logger.error(
+					"FileNotFoundException while loading the Properties file. Exception Message: " + e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			logger.error("I/O Exception while loading the Properties file.");
+			logger.error("I/O Exception while loading the Properties file. Exception Message: " + e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
-			logger.error("Properties file could not be loaded.");
+			logger.error("Properties file could not be loaded. Exception Message: " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			Util.streamCleanup(fileInputStream);
@@ -68,9 +74,9 @@ public class BaseSteps {
 
 	/**
 	 * This is a common setup method which will form the base to drive the tests.
-	 * Actions include initializing browser drivers, launching browsers (with
-	 * capabilities), calling web events and timeouts.
-	 * 
+	 * Actions include initializing the browser drivers for each browser, launching
+	 * the browsers (with capabilities), calling web events and declaring implicit/
+	 * payload timeouts.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -132,6 +138,14 @@ public class BaseSteps {
 		}
 	}
 
+	/**
+	 * This method consists of common actions to perform cleanup activities after
+	 * the tests are run.
+	 * 
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
+	 */
 	public void testCleanUp() {
 		driver.quit();
 		logger.info("All opened browser instances are closed successfully.");

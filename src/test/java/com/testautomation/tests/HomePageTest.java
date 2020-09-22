@@ -44,17 +44,27 @@ public class HomePageTest {
 
 	// Scenario 1
 	@Test(description = "To an user, HomePage headings and title should get correctly displayed.", priority = 1, retryAnalyzer = RetryAnalyzer.class)
-	public void homePage_HeadingAndTitle_Test() {
+	public void homePage_HeadingAndTitleValidation_Test() {
 		homePageSteps.openURL(homePageSteps.properties.getProperty("HomePageUrl"));
 		Util.takeScreenshot();
 		String homePageTitle = homePageSteps.getPageTitle();
-		logger.debug("Homepage title is: " + homePageTitle);
+		logger.debug("HomePage title is: " + homePageTitle);
 		Assert.assertEquals(homePageTitle, "Automation Practice - Ultimate QA", "Home page title is not correct");
 		logger.debug("HomePage title matches.");
-		Assert.assertTrue(homePageSteps.checkHeading());
+		Assert.assertTrue(homePageSteps.validateHeading());
 		logger.debug("HomePage heading matches.");
-		Assert.assertTrue(homePageSteps.checkSubHeading());
+		Assert.assertTrue(homePageSteps.validateSubHeading());
 		logger.debug("HomePage subheading matches.");
 	}
 
+	// Scenario 2
+	@Test(description = "For an user,all the HomePage links should work correctly.", priority = 2, retryAnalyzer = RetryAnalyzer.class)
+	public void homePage_LinksValidation_Test() {
+		homePageSteps.openURL(homePageSteps.properties.getProperty("HomePageUrl"));
+		Util.takeScreenshot();
+		Assert.assertTrue(homePageSteps.validateContentLinksDisplay());
+		logger.debug("All the HomePage links are getting displayed.");
+		// Assert.assertTrue(homePageSteps.validateLinksAreEnabled());
+		// logger.debug("All the HomePage links are in enabled condition.");
+	}
 }
