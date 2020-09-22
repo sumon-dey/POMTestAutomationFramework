@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
 import com.testautomation.base.BaseSteps;
 import com.testautomation.pages.HomePage;
 
@@ -30,38 +32,101 @@ public class HomePageSteps extends BaseSteps {
 		super();
 	}
 
-	public boolean validateHeading() {
+	public boolean isHeadingDisplayed() {
 		homePage = new HomePage();
 		return homePage.getHomePageHeading().isDisplayed();
 	}
 
-	public boolean validateSubHeading() {
+	public boolean isSubHeadingDisplayed() {
 		homePage = new HomePage();
 		return homePage.getHomePageSubHeading().isDisplayed();
 	}
 
-	public boolean validateContentLinksDisplay() {
+	public boolean areAllContentLinksDisplayed() {
 		homePage = new HomePage();
-		try {
-			boolean isPresent = true;
-			List<WebElement> homePageContentLinkList = homePage.getHomePageAllContentLinks();
-			for (WebElement eachHomePageContentLink : homePageContentLinkList) {
-				logger.info("Checking Link: " + eachHomePageContentLink.getText());
-				if (!eachHomePageContentLink.isDisplayed()) {
-					logger.error("Link not getting displayed: " + eachHomePageContentLink.getText());
-					isPresent = false;
-				}
+		boolean isPresent = true;
+		List<WebElement> homePageContentLinkList = homePage.getHomePageAllContentLinks();
+		for (WebElement eachHomePageContentLink : homePageContentLinkList) {
+			logger.info("Checking Link: " + eachHomePageContentLink.getText());
+			if (!eachHomePageContentLink.isDisplayed()) {
+				logger.error("Link not getting displayed: " + eachHomePageContentLink.getText());
+				isPresent = false;
 			}
-			return isPresent;
-		} catch (Exception e) {
-			logger.error("Exception caught is: " + e.getMessage());
-			e.printStackTrace();
 		}
-		return false;
+		return isPresent;
 	}
 
-	public boolean validateLinksAreEnabled() {
-		return false;
+	public boolean areAllContentLinksEnabled() {
+		homePage = new HomePage();
+		boolean isEnabled = true;
+		List<WebElement> homePageContentLinkList = homePage.getHomePageAllContentLinks();
+		for (WebElement eachHomePageContentLink : homePageContentLinkList) {
+			logger.info("Checking Link: " + eachHomePageContentLink.getText());
+			if (!eachHomePageContentLink.isEnabled()) {
+				logger.error("Link: " + eachHomePageContentLink.getText() + " -> is not enabled.");
+				isEnabled = false;
+			}
+		}
+		return isEnabled;
+	}
+
+	public void checkAllContentLinkFunction() {
+		homePage = new HomePage();
+		clickOn(homePage.getBigPageWithManyElementsLink());
+		Assert.assertEquals(homePage.getCurrentUrl(), "https://ultimateqa.com/complicated-page/",
+				"The current url is not matching");
+		logger.debug("The current url is matching.");
+		Assert.assertEquals(homePage.getPageTitle(), "Complicated Page - Ultimate QA",
+				"The page title is not matching");
+		logger.debug("The page title is matching");
+		navigateBack();
+		clickOn(homePage.getFakeLandingPageLink());
+		Assert.assertEquals(homePage.getCurrentUrl(), "https://ultimateqa.com/fake-landing-page/",
+				"The current url is not matching");
+		logger.debug("The current url is matching.");
+		Assert.assertEquals(homePage.getPageTitle(), "Fake landing page - Ultimate QA",
+				"The page title is not matching");
+		logger.debug("The page title is matching");
+		navigateBack();
+		clickOn(homePage.getFakePricingPageLink());
+		Assert.assertEquals(homePage.getCurrentUrl(), "https://ultimateqa.com/automation/fake-pricing-page/",
+				"The current url is not matching");
+		logger.debug("The current url is matching.");
+		Assert.assertEquals(homePage.getPageTitle(), "Fake pricing page - Ultimate QA",
+				"The page title is not matching");
+		logger.debug("The page title is matching");
+		navigateBack();
+		clickOn(homePage.getFillOutFormsLink());
+		Assert.assertEquals(homePage.getCurrentUrl(), "https://ultimateqa.com/filling-out-forms/",
+				"The current url is not matching");
+		logger.debug("The current url is matching.");
+		Assert.assertEquals(homePage.getPageTitle(), "Filling Out Forms - Ultimate QA",
+				"The page title is not matching");
+		logger.debug("The page title is matching");
+		navigateBack();
+		clickOn(homePage.getLearnHowToAutomateApplicationLink());
+		Assert.assertEquals(homePage.getCurrentUrl(), "https://ultimateqa.com/sample-application-lifecycle-sprint-1/",
+				"The current url is not matching");
+		logger.debug("The current url is matching.");
+		Assert.assertEquals(homePage.getPageTitle(), "Sample Application Lifecycle - Sprint 1 - Ultimate QA",
+				"The page title is not matching");
+		logger.debug("The page title is matching");
+		navigateBack();
+		clickOn(homePage.getLoginAutomationLink());
+		Assert.assertEquals(homePage.getCurrentUrl(), "https://courses.ultimateqa.com/users/sign_in",
+				"The current url is not matching");
+		logger.debug("The current url is matching.");
+		Assert.assertEquals(homePage.getPageTitle(), "Ultimate QA", "The page title is not matching");
+		logger.debug("The page title is matching");
+		navigateBack();
+		clickOn(homePage.getInteractionsWithSimpleElementsLink());
+		Assert.assertEquals(homePage.getCurrentUrl(), "https://ultimateqa.com/simple-html-elements-for-automation/",
+				"The current url is not matching");
+		logger.debug("The current url is matching.");
+		Assert.assertEquals(homePage.getPageTitle(), "Simple HTML Elements For Automation - Ultimate QA",
+				"The page title is not matching");
+		logger.debug("The page title is matching");
+		navigateBack();
 	}
 
 }

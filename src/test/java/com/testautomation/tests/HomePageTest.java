@@ -49,22 +49,26 @@ public class HomePageTest {
 		Util.takeScreenshot();
 		String homePageTitle = homePageSteps.getPageTitle();
 		logger.debug("HomePage title is: " + homePageTitle);
-		Assert.assertEquals(homePageTitle, "Automation Practice - Ultimate QA", "Home page title is not correct");
+		Assert.assertEquals(homePageTitle, "Automation Practice - Ultimate QA", "HomePage title does not match.");
 		logger.debug("HomePage title matches.");
-		Assert.assertTrue(homePageSteps.validateHeading());
+		Assert.assertTrue(homePageSteps.isHeadingDisplayed(), "HomePage heading does not match.");
 		logger.debug("HomePage heading matches.");
-		Assert.assertTrue(homePageSteps.validateSubHeading());
+		Assert.assertTrue(homePageSteps.isSubHeadingDisplayed(), "HomePage subheading does not match.");
 		logger.debug("HomePage subheading matches.");
 	}
 
 	// Scenario 2
-	@Test(description = "For an user,all the HomePage links should work correctly.", priority = 2, retryAnalyzer = RetryAnalyzer.class)
-	public void homePage_LinksValidation_Test() {
+	@Test(description = "For an user, all the HomePage content links should work correctly.", priority = 2, retryAnalyzer = RetryAnalyzer.class)
+	public void homePage_contentLinksValidation_Test() {
 		homePageSteps.openURL(homePageSteps.properties.getProperty("HomePageUrl"));
 		Util.takeScreenshot();
-		Assert.assertTrue(homePageSteps.validateContentLinksDisplay());
-		logger.debug("All the HomePage links are getting displayed.");
-		// Assert.assertTrue(homePageSteps.validateLinksAreEnabled());
-		// logger.debug("All the HomePage links are in enabled condition.");
+		Assert.assertTrue(homePageSteps.areAllContentLinksDisplayed(),
+				"All the HomePage Content Links are not getting displayed.");
+		logger.debug("All the HomePage Content links are getting displayed.");
+		Assert.assertTrue(homePageSteps.areAllContentLinksEnabled(),
+				"All the HomePage Content Links are not in enabled condition.");
+		logger.debug("All the HomePage Content links are in enabled condition.");
+		homePageSteps.checkAllContentLinkFunction();
+		logger.debug("All the HomePage Content links are functioning correctly.");
 	}
 }

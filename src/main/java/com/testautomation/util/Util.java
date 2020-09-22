@@ -24,6 +24,7 @@ public class Util extends BaseSteps {
 
 	public static long PAGE_LOAD_TIMEOUT = 80;
 	public static long IMPLICIT_WAIT = 10;
+	public static long EXPLICIT_WAIT = 30;
 	static String TESTDATA_SHEET_PATH = "./src/test/resources/com/testautomation/testdata/TestData.xlsx";
 	static Workbook workbook;
 	static Sheet sheet;

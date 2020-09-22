@@ -3,7 +3,8 @@ package com.testautomation.pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import com.testautomation.base.BaseSteps;
+
+import com.testautomation.base.BasePage;
 
 import lombok.Getter;
 
@@ -17,7 +18,7 @@ import lombok.Getter;
  *
  */
 @Getter
-public class LoginPage extends BaseSteps {
+public class LoginPage extends BasePage {
 
 	// *************************************
 	// Page Objects (Object Repository)

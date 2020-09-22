@@ -1,11 +1,14 @@
 package com.testautomation.pages;
 
 import java.util.List;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import com.testautomation.base.BaseSteps;
+
+import com.testautomation.base.BasePage;
+
 import lombok.Getter;
 
 /**
@@ -18,7 +21,7 @@ import lombok.Getter;
  *
  */
 @Getter
-public class HomePage extends BaseSteps {
+public class HomePage extends BasePage {
 
 	// ***************************************
 	// Page Objects (Object Repository)
@@ -32,6 +35,27 @@ public class HomePage extends BaseSteps {
 
 	@FindBy(xpath = "//div[@class='et_pb_text_inner']/ul/li/a")
 	private List<WebElement> homePageAllContentLinks;
+
+	@FindBy(xpath = "//a[text()='Big page with many elements']")
+	private WebElement bigPageWithManyElementsLink;
+
+	@FindBy(xpath = "//a[text()='Fake Landing Page']")
+	private WebElement fakeLandingPageLink;
+
+	@FindBy(xpath = "//a[text()='Fake Pricing Page']")
+	private WebElement fakePricingPageLink;
+
+	@FindBy(xpath = "//a[text()='Fill out forms']")
+	private WebElement fillOutFormsLink;
+
+	@FindBy(xpath = "//a[text()='Learn how to automate an application that evolves over time']")
+	private WebElement learnHowToAutomateApplicationLink;
+
+	@FindBy(xpath = "//a[text()='Login automation']")
+	private WebElement loginAutomationLink;
+
+	@FindBy(xpath = "//a[text()='Interactions with simple elements']")
+	private WebElement interactionsWithSimpleElementsLink;
 
 	// ***************************************
 	// Initializing the Page Factory

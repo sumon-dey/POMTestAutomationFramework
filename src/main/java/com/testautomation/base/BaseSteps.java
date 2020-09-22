@@ -10,10 +10,14 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import com.testautomation.util.Util;
 import com.testautomation.util.WebEventListener;
 
@@ -27,13 +31,14 @@ import com.testautomation.util.WebEventListener;
  *
  *
  */
-public class BaseSteps {
-	public static WebDriver driver;
+public class BaseSteps extends BasePage {
+
 	public Properties properties;
 	private FileInputStream fileInputStream;
 	private File file;
 	public static EventFiringWebDriver eventFiringWebDriver;
 	public static WebEventListener webEventListener;
+	public static int explicit_timeout = 30;
 	private static final Logger logger = Logger.getLogger(BaseSteps.class);
 
 	public BaseSteps() {
@@ -155,8 +160,26 @@ public class BaseSteps {
 		driver.get(url);
 	}
 
-	public String getPageTitle() {
-		return driver.getTitle();
+	public void navigateBack() {
+		driver.navigate().back();
+	}
+
+	public void navigateForward() {
+		driver.navigate().forward();
+	}
+
+	public void performPageRefresh() {
+		driver.navigate().refresh();
+	}
+
+	public void clickOn(WebElement webElement) {
+		waitForWebElementToBeVisibleAndClickable(webElement);
+		webElement.click();
+	}
+
+	private void waitForWebElementToBeVisibleAndClickable(WebElement webElement) {
+		new WebDriverWait(driver, Util.EXPLICIT_WAIT).until(ExpectedConditions.visibilityOf(webElement));
+		new WebDriverWait(driver, Util.EXPLICIT_WAIT).until(ExpectedConditions.elementToBeClickable(webElement));
 	}
 
 }
