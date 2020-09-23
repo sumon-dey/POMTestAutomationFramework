@@ -58,7 +58,7 @@ public class HomePageTest {
 	}
 
 	// Scenario 2
-	@Test(description = "For an user, all the HomePage content links should work correctly.", priority = 2, retryAnalyzer = RetryAnalyzer.class)
+	@Test(description = "For an user, all the HomePage content links should work correctly.", priority = 2)
 	public void homePage_contentLinksValidation_Test() {
 		homePageSteps.openURL(homePageSteps.properties.getProperty("HomePageUrl"));
 		Util.takeScreenshot();
@@ -68,7 +68,7 @@ public class HomePageTest {
 		Assert.assertTrue(homePageSteps.areAllContentLinksEnabled(),
 				"All the HomePage Content Links are not in enabled condition.");
 		logger.debug("All the HomePage Content links are in enabled condition.");
-		homePageSteps.checkAllContentLinkFunction();
+		Assert.assertTrue(homePageSteps.areAllContentLinksFunctioningCorrectly());
 		logger.debug("All the HomePage Content links are functioning correctly.");
 	}
 }

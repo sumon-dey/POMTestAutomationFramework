@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -180,6 +183,26 @@ public class BaseSteps extends BasePage {
 	private void waitForWebElementToBeVisibleAndClickable(WebElement webElement) {
 		new WebDriverWait(driver, Util.EXPLICIT_WAIT).until(ExpectedConditions.visibilityOf(webElement));
 		new WebDriverWait(driver, Util.EXPLICIT_WAIT).until(ExpectedConditions.elementToBeClickable(webElement));
+	}
+
+	/**
+	 * This method will take URL as input and format it to remove the last forward
+	 * slash (if present). Sometimes, the url changes dynamically to add forward
+	 * slash(/) at the end and remaining times it doesn't. So, it should not matter
+	 * whether the forward slash is present at the end or not, as long as the
+	 * remaining url string remains as expected.
+	 * 
+	 * 
+	 * @param url
+	 * @param stringToMatch
+	 * @return
+	 */
+	public String urlPatternMatcher(String url, String stringToMatch) {
+		Matcher matcher = Pattern.compile(stringToMatch + "\\/").matcher(url);
+		if (matcher.find()) {
+			url = url.replaceFirst(stringToMatch + "\\/", stringToMatch);
+		}
+		return url;
 	}
 
 }
