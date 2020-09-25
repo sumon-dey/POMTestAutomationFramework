@@ -9,7 +9,6 @@
 	</listeners>
 	<test name="Ultimate QA Test Automation Test Cases">
 		<classes>
-			<class name="com.testautomation.tests.SignInPageTest" />
 			<class name="com.testautomation.tests.HomePageTest" />
 		</classes>
 	</test>
