@@ -98,36 +98,10 @@ public class BaseSteps extends BasePage {
 			// WebDriverManager.chromedriver().setup();
 			switch (browserName.toLowerCase()) {
 			case "chrome":
-				try {
-					System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
-					ChromeOptions chromeOptions = new ChromeOptions();
-					// setting up chromeDriver-specific capabilities to configure a ChromeDriver
-					// session
-					chromeOptions.addArguments("start-maximized");
-					chromeOptions.addArguments("--disable-extensions");
-					chromeOptions.addArguments("--disable-plugins");
-					// WebDriver proxy capability can be added too like below:
-					// Proxy proxy = new Proxy();
-					// proxy.setHttpProxy("myhttpproxy:3337");
-					// chromeOptions.setCapability("proxy", proxy);
-					// setting up download directory
-					Map<String, Object> prefs = new HashMap<String, Object>();
-					prefs.put("download.default_directory", "./downloads");
-					chromeOptions.setExperimentalOption("prefs", prefs);
-					driver = new ChromeDriver(chromeOptions);
-					logger.debug("ChromeDriver has started.");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				driver = chromeSetUp(driver);
 				break;
 			case "firefox":
-				try {
-					System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
-					driver = new FirefoxDriver();
-					logger.debug("FirefoxDriver has started.");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				driver = firefoxSetUp(driver);
 				break;
 			default:
 				logger.warn(browserName + " is not supported.");
@@ -137,13 +111,63 @@ public class BaseSteps extends BasePage {
 			webEventListener = new WebEventListener();
 			eventFiringWebDriver.register(webEventListener);
 			driver = eventFiringWebDriver;
-			driver.manage().deleteAllCookies();
-			logger.info("All cookies are deleted.");
-			driver.manage().timeouts().pageLoadTimeout(Util.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
-			driver.manage().timeouts().implicitlyWait(Util.IMPLICIT_WAIT, TimeUnit.SECONDS);
+			manageCookiesAndTimeouts(driver);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public WebDriver chromeSetUp(WebDriver driver) {
+		try {
+			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+			driver = new ChromeDriver(getChromeOptions());
+			logger.debug("ChromeDriver has started.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return driver;
+	}
+
+	public WebDriver firefoxSetUp(WebDriver driver) {
+		try {
+			System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
+			driver = new FirefoxDriver();
+			logger.debug("FirefoxDriver has started.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return driver;
+	}
+
+	public void manageCookiesAndTimeouts(WebDriver driver) {
+		driver.manage().deleteAllCookies();
+		logger.info("All cookies are deleted.");
+		driver.manage().timeouts().pageLoadTimeout(Util.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Util.IMPLICIT_WAIT, TimeUnit.SECONDS);
+	}
+
+	public ChromeOptions getChromeOptions() {
+		ChromeOptions chromeOptions = null;
+		try {
+			chromeOptions = new ChromeOptions();
+			// setting up chromeDriver-specific capabilities to configure a ChromeDriver
+			// session
+			chromeOptions.addArguments("--start-maximized");
+			chromeOptions.addArguments("--disable-extensions");
+			chromeOptions.addArguments("--disable-plugins");
+			chromeOptions.addArguments("--disable-infobars");
+			// WebDriver proxy capability can be added too like below:
+			// Proxy proxy = new Proxy();
+			// proxy.setHttpProxy("myhttpproxy:3337");
+			// chromeOptions.setCapability("proxy", proxy);
+			// setting up download directory
+			Map<String, Object> prefs = new HashMap<String, Object>();
+			prefs.put("download.default_directory", "./downloads");
+			chromeOptions.setExperimentalOption("prefs", prefs);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return chromeOptions;
 	}
 
 	/**
