@@ -2,8 +2,7 @@ package com.testautomation.base;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -21,6 +20,7 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.testautomation.exceptions.exceptionHandling.FileExceptionHandling;
 import com.testautomation.util.Util;
 import com.testautomation.util.WebEventListener;
 
@@ -37,8 +37,8 @@ import com.testautomation.util.WebEventListener;
 public class BaseSteps extends BasePage {
 
 	public Properties properties;
-	private FileInputStream fileInputStream;
-	private File file;
+	private InputStream inputStream;
+	private String propertyFileName;
 	public static EventFiringWebDriver eventFiringWebDriver;
 	public static WebEventListener webEventListener;
 	public static int explicit_timeout = 30;
@@ -58,25 +58,18 @@ public class BaseSteps extends BasePage {
 	public void loadConfigProperties() {
 		try {
 			if (properties == null) {
+				propertyFileName = "config.properties";
+				String propertyFilePath = System.getProperty("user.dir")
+						+ "/src/test/resources/com/testautomation/config/" + propertyFileName;
 				properties = new Properties();
-				file = new File(System.getProperty("user.dir")
-						+ "/src/test/resources/com/testautomation/config/config.properties");
-				fileInputStream = new FileInputStream(file);
-				properties.load(fileInputStream);
+				inputStream = new FileInputStream(new File(propertyFilePath));
+				properties.load(inputStream);
 				logger.debug("Configuration properties file is loaded successfully.");
 			}
-		} catch (FileNotFoundException e) {
-			logger.error(
-					"FileNotFoundException while loading the Properties file. Exception Message: " + e.getMessage());
-			e.printStackTrace();
-		} catch (IOException e) {
-			logger.error("I/O Exception while loading the Properties file. Exception Message: " + e.getMessage());
-			e.printStackTrace();
 		} catch (Exception e) {
-			logger.error("Properties file could not be loaded. Exception Message: " + e.getMessage());
-			e.printStackTrace();
+			FileExceptionHandling.handlePropertiesFileException(e, propertyFileName);
 		} finally {
-			Util.streamCleanup(fileInputStream);
+			Util.streamCleanup(inputStream);
 		}
 	}
 
