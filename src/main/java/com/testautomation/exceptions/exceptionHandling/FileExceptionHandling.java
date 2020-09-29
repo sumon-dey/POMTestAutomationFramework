@@ -14,17 +14,20 @@ public class FileExceptionHandling {
 			logger.error("Properties file " + propertyFileName + " is not found in the classpath. \nException Message: "
 					+ exception.getMessage());
 			throw new FileException("Properties file \"" + propertyFileName
-					+ "\" is not found in the classpath. \nException Message: " + exception.getMessage());
+					+ "\" is not found in the classpath. \nException Message: " + exception.getMessage(), exception,
+					ErrorCodes.VALIDATION_PARSE_ERROR);
 		} else if (exception instanceof IOException) {
 			logger.error("I/O Exception while loading the Properties file \"" + propertyFileName
 					+ "\" \nException Message: " + exception.getMessage());
 			throw new FileException("I/O Exception while loading the Properties file \"" + propertyFileName
-					+ "\" \nException Message: " + exception.getMessage());
+					+ "\" \nException Message: " + exception.getMessage(), exception,
+					ErrorCodes.VALIDATION_PARSE_ERROR);
 		} else {
 			logger.error("Properties file \"" + propertyFileName + "\" could not be loaded. \nException Message: "
 					+ exception.getMessage());
 			throw new FileException("Properties file \"" + propertyFileName
-					+ "\" could not be loaded. \nException Message: " + exception.getMessage());
+					+ "\" could not be loaded. \nException Message: " + exception.getMessage(), exception,
+					ErrorCodes.VALIDATION_PARSE_ERROR);
 		}
 	}
 

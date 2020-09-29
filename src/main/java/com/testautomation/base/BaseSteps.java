@@ -58,7 +58,7 @@ public class BaseSteps extends BasePage {
 	public void loadConfigProperties() {
 		try {
 			if (properties == null) {
-				propertyFileName = "config.properties";
+				propertyFileName = "config1.properties";
 				String propertyFilePath = System.getProperty("user.dir")
 						+ "/src/test/resources/com/testautomation/config/" + propertyFileName;
 				properties = new Properties();
