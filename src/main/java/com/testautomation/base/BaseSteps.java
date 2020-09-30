@@ -20,6 +20,7 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.testautomation.exceptions.exceptionHandling.BrowserExceptionHandling;
 import com.testautomation.exceptions.exceptionHandling.FileExceptionHandling;
 import com.testautomation.util.Util;
 import com.testautomation.util.WebEventListener;
@@ -49,7 +50,9 @@ public class BaseSteps extends BasePage {
 	}
 
 	/**
-	 * This method will load the configuration files.
+	 * This method will load the properties configuration file, handle related
+	 * exceptions and make use of custom framework exception to display relevant
+	 * exception details.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -58,7 +61,7 @@ public class BaseSteps extends BasePage {
 	public void loadConfigProperties() {
 		try {
 			if (properties == null) {
-				propertyFileName = "config1.properties";
+				propertyFileName = "config.properties";
 				String propertyFilePath = System.getProperty("user.dir")
 						+ "/src/test/resources/com/testautomation/config/" + propertyFileName;
 				properties = new Properties();
@@ -75,9 +78,8 @@ public class BaseSteps extends BasePage {
 
 	/**
 	 * This is a common setup method which will form the base to drive the tests.
-	 * Actions include initializing the browser drivers for each browser, launching
-	 * the browsers (with capabilities), calling web events and declaring implicit/
-	 * payload timeouts.
+	 * Actions include setting up the browsers, setting up the monitoring/logging of
+	 * web events and managing cookies/timeouts.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -87,7 +89,7 @@ public class BaseSteps extends BasePage {
 		try {
 			String browserName = properties.getProperty("Browser");
 			logger.debug("Launched browser is: " + browserName);
-			// Using "WebDriverManager" to set-up the browser initialization process
+			// We can use "WebDriverManager" to set-up the browser initialization process
 			// WebDriverManager.chromedriver().setup();
 			switch (browserName.toLowerCase()) {
 			case "chrome":
@@ -97,19 +99,41 @@ public class BaseSteps extends BasePage {
 				driver = firefoxSetUp(driver);
 				break;
 			default:
-				logger.warn(browserName + " is not supported.");
+				BrowserExceptionHandling.handleBrowserLaunchException("The browser is not supported: ", browserName);
 				break;
 			}
-			eventFiringWebDriver = new EventFiringWebDriver(driver);
-			webEventListener = new WebEventListener();
-			eventFiringWebDriver.register(webEventListener);
-			driver = eventFiringWebDriver;
+			driver = monitorAndLogWebEvents(driver);
 			manageCookiesAndTimeouts(driver);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * 
+	 * This method will take the WebDriver object, wrap it with EventFiringWebDriver
+	 * object (which will register WebDriverListener implementing class) to monitor
+	 * and log web events, and return it.
+	 * 
+	 * @author Sumon Dey
+	 * @since 30/09/2020
+	 * @version 0.1
+	 * 
+	 */
+	public EventFiringWebDriver monitorAndLogWebEvents(WebDriver driver) {
+		eventFiringWebDriver = new EventFiringWebDriver(driver);
+		webEventListener = new WebEventListener();
+		eventFiringWebDriver.register(webEventListener);
+		return eventFiringWebDriver;
+	}
+
+	/**
+	 * This method will initialize the browser driver for Chrome browser and launch
+	 * the Chrome browser (with capabilities)
+	 * 
+	 * @param driver
+	 * @return the driver object after adding the capabilties
+	 */
 	public WebDriver chromeSetUp(WebDriver driver) {
 		try {
 			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
@@ -139,12 +163,17 @@ public class BaseSteps extends BasePage {
 		driver.manage().timeouts().implicitlyWait(Util.IMPLICIT_WAIT, TimeUnit.SECONDS);
 	}
 
+	/**
+	 * This method will set up ChromeDriver-specific capabilities to configure and
+	 * drive a ChromeDriver session.
+	 * 
+	 * @return ChromeOptions object (which will manage the capabilties specific to
+	 *         the browser session)
+	 */
 	public ChromeOptions getChromeOptions() {
 		ChromeOptions chromeOptions = null;
 		try {
 			chromeOptions = new ChromeOptions();
-			// setting up chromeDriver-specific capabilities to configure a ChromeDriver
-			// session
 			chromeOptions.addArguments("--start-maximized");
 			chromeOptions.addArguments("--disable-extensions");
 			chromeOptions.addArguments("--disable-plugins");

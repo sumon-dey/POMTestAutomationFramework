@@ -8,17 +8,29 @@ public class FileException extends RuntimeException {
 
 	private Integer errorCode;
 
-	public FileException(String customErrorMessage) {
-		super(customErrorMessage);
+	public FileException() {
+
+	}
+
+	public FileException(String message) {
+		super(message);
 	}
 
 	public FileException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
+	public FileException(Throwable cause) {
+		super(cause);
+	}
+
 	public FileException(String message, Throwable cause, ErrorCodes errorCode) {
 		super(message, cause);
 		this.errorCode = errorCode.getCode();
+	}
+
+	public FileException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
 }
