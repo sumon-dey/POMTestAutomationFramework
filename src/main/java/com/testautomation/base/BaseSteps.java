@@ -22,6 +22,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.testautomation.exceptions.exceptionHandling.TestInitializationExceptionHandling;
+import com.testautomation.exceptions.FileException;
 import com.testautomation.exceptions.exceptionHandling.FileExceptionHandling;
 import com.testautomation.util.Util;
 import com.testautomation.util.WebEventListener;
@@ -56,11 +57,12 @@ public class BaseSteps extends BasePage {
 	 * @author Sumon Dey
 	 * @since 13/06/2020
 	 * @version 0.1
+	 * @throws Exception
 	 */
-	public void loadConfigProperties() {
+	public void loadConfigProperties(String configPropertiesFileName) {
 		try {
 			if (properties == null) {
-				propertyFileName = "config.properties";
+				propertyFileName = configPropertiesFileName;
 				String propertyFilePath = System.getProperty("user.dir")
 						+ "/src/test/resources/com/testautomation/config/" + propertyFileName;
 				properties = new Properties();

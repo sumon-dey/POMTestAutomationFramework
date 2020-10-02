@@ -13,6 +13,7 @@ public class HomePageTest {
 
 	public HomePageSteps homePageSteps;
 	private static final Logger log = Logger.getLogger(HomePageTest.class);
+	private String configPropertiesFileName;
 
 	/**
 	 * This method will run before every test present in the HomePageTest class.
@@ -25,7 +26,8 @@ public class HomePageTest {
 	@BeforeMethod
 	public void setUp() {
 		homePageSteps = new HomePageSteps();
-		homePageSteps.loadConfigProperties();
+		configPropertiesFileName = "config.properties";
+		homePageSteps.loadConfigProperties(configPropertiesFileName);
 		homePageSteps.testInitialization();
 	}
 
