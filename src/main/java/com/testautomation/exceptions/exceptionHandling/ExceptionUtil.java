@@ -12,7 +12,7 @@ public class ExceptionUtil {
 	 * @return exception root cause
 	 */
 	@SuppressWarnings("unchecked")
-	static <T extends Throwable> T rootCause(Throwable t) {
+	public static <T extends Throwable> T rootCause(Throwable t) {
 		Throwable cause = t.getCause();
 		if (cause != null && cause != t) {
 			return rootCause(cause);

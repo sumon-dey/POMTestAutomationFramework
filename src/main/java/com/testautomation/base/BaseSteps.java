@@ -1,5 +1,6 @@
 package com.testautomation.base;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -20,14 +21,15 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.testautomation.exceptions.exceptionHandling.BrowserExceptionHandling;
+import com.testautomation.exceptions.exceptionHandling.TestInitializationExceptionHandling;
 import com.testautomation.exceptions.exceptionHandling.FileExceptionHandling;
 import com.testautomation.util.Util;
 import com.testautomation.util.WebEventListener;
 
 /**
  * This is a base class for the test steps. It consists of actions which are
- * common to the test steps. All the test classes will inherit this class.
+ * common to the test steps. All the test classes will inherit this class - its
+ * properties and behavior
  * 
  * @author Sumon Dey
  * @since 13/06/2020
@@ -42,17 +44,14 @@ public class BaseSteps extends BasePage {
 	private String propertyFileName;
 	public static EventFiringWebDriver eventFiringWebDriver;
 	public static WebEventListener webEventListener;
-	public static int explicit_timeout = 30;
-	private static final Logger logger = Logger.getLogger(BaseSteps.class);
-
-	public BaseSteps() {
-
-	}
+	private static final Logger log = Logger.getLogger(BaseSteps.class);
 
 	/**
-	 * This method will load the properties configuration file, handle related
-	 * exceptions and make use of custom framework exception to display relevant
-	 * exception details.
+	 * This method will load the properties configuration file. It will also handle
+	 * related exceptions and make use of custom framework exception to display
+	 * relevant exception details. The need of using a custom framework exception is
+	 * to wrap the default exceptions with meaningful business-level exception
+	 * descriptions.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -67,19 +66,39 @@ public class BaseSteps extends BasePage {
 				properties = new Properties();
 				inputStream = new FileInputStream(new File(propertyFilePath));
 				properties.load(inputStream);
-				logger.debug("Configuration properties file is loaded successfully.");
+				log.debug("Configuration properties file is loaded successfully.");
 			}
 		} catch (Exception e) {
-			FileExceptionHandling.handlePropertiesFileException(e, propertyFileName);
+			(new FileExceptionHandling()).handlePropertiesFileException(e, propertyFileName);
 		} finally {
-			Util.streamCleanup(inputStream);
+			streamCleanup(inputStream);
 		}
 	}
 
 	/**
-	 * This is a common setup method which will form the base to drive the tests.
-	 * Actions include setting up the browsers, setting up the monitoring/logging of
-	 * web events and managing cookies/timeouts.
+	 * This is a common method which cleans up stream resources after performing
+	 * null check.
+	 * 
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
+	 * 
+	 */
+	public void streamCleanup(Closeable stream) {
+		try {
+			if (stream != null) {
+				stream.close();
+			}
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+
+	/**
+	 * This is a common setup method which will form the base to initialize and
+	 * drive the tests. The functionalities provided by this method include calling
+	 * other methods to set up the browsers, set up the monitoring/logging for web
+	 * events and manage cookies/timeouts.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -88,7 +107,7 @@ public class BaseSteps extends BasePage {
 	public void testInitialization() {
 		try {
 			String browserName = properties.getProperty("Browser");
-			logger.debug("Launched browser is: " + browserName);
+			log.debug("Launched browser is: " + browserName);
 			// We can use "WebDriverManager" to set-up the browser initialization process
 			// WebDriverManager.chromedriver().setup();
 			switch (browserName.toLowerCase()) {
@@ -99,10 +118,11 @@ public class BaseSteps extends BasePage {
 				driver = firefoxSetUp(driver);
 				break;
 			default:
-				BrowserExceptionHandling.handleBrowserLaunchException("The browser is not supported: ", browserName);
+				(new TestInitializationExceptionHandling())
+						.handleBrowserLaunchException("The browser is not supported: ", browserName);
 				break;
 			}
-			driver = monitorAndLogWebEvents(driver);
+			driver = monitorAndLogWebEventSetup(driver);
 			manageCookiesAndTimeouts(driver);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,7 +140,7 @@ public class BaseSteps extends BasePage {
 	 * @version 0.1
 	 * 
 	 */
-	public EventFiringWebDriver monitorAndLogWebEvents(WebDriver driver) {
+	public EventFiringWebDriver monitorAndLogWebEventSetup(WebDriver driver) {
 		eventFiringWebDriver = new EventFiringWebDriver(driver);
 		webEventListener = new WebEventListener();
 		eventFiringWebDriver.register(webEventListener);
@@ -138,7 +158,7 @@ public class BaseSteps extends BasePage {
 		try {
 			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
 			driver = new ChromeDriver(getChromeOptions());
-			logger.debug("ChromeDriver has started.");
+			log.debug("ChromeDriver has started.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -149,7 +169,7 @@ public class BaseSteps extends BasePage {
 		try {
 			System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
 			driver = new FirefoxDriver();
-			logger.debug("FirefoxDriver has started.");
+			log.debug("FirefoxDriver has started.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -158,7 +178,7 @@ public class BaseSteps extends BasePage {
 
 	public void manageCookiesAndTimeouts(WebDriver driver) {
 		driver.manage().deleteAllCookies();
-		logger.info("All cookies are deleted.");
+		log.info("All cookies are deleted.");
 		driver.manage().timeouts().pageLoadTimeout(Util.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(Util.IMPLICIT_WAIT, TimeUnit.SECONDS);
 	}
@@ -202,7 +222,7 @@ public class BaseSteps extends BasePage {
 	 */
 	public void testCleanUp() {
 		driver.quit();
-		logger.info("All opened browser instances are closed successfully.");
+		log.info("All opened browser instances are closed successfully.");
 	}
 
 	public void openURL(String url) {

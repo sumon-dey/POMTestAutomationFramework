@@ -29,7 +29,7 @@ public class Util extends BaseSteps {
 	static Workbook workbook;
 	static Sheet sheet;
 	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-	private static final Logger logger = Logger.getLogger(Util.class);
+	private static final Logger log = Logger.getLogger(Util.class);
 
 	public void switchToFrame(int index) {
 		driver.switchTo().frame(index);
@@ -93,7 +93,7 @@ public class Util extends BaseSteps {
 			FileUtils.copyFile(sourceFile, new File(System.getProperty("user.dir") + "\\screenshots\\Screenshot_"
 					+ System.currentTimeMillis() + ".png"));
 		} catch (IOException e) {
-			logger.error("Failed to create screenshot file.");
+			log.error("Failed to create screenshot file.");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,25 +115,6 @@ public class Util extends BaseSteps {
 
 	public static String dateTimeFormatter() {
 		return "[ " + simpleDateFormat.format(new Timestamp(System.currentTimeMillis())) + " ] ";
-	}
-
-	/**
-	 * This is a common method which cleans up stream resources after performing
-	 * null check.
-	 * 
-	 * @author Sumon Dey
-	 * @since 13/06/2020
-	 * @version 0.1
-	 * 
-	 */
-	public static void streamCleanup(Closeable stream) {
-		try {
-			if (stream != null) {
-				stream.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

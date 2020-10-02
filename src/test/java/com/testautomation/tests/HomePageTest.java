@@ -12,7 +12,7 @@ import com.testautomation.util.Util;
 public class HomePageTest {
 
 	public HomePageSteps homePageSteps;
-	private static final Logger logger = Logger.getLogger(HomePageTest.class);
+	private static final Logger log = Logger.getLogger(HomePageTest.class);
 
 	/**
 	 * This method will run before every test present in the HomePageTest class.
@@ -48,13 +48,13 @@ public class HomePageTest {
 		homePageSteps.openURL(homePageSteps.properties.getProperty("HomePageUrl"));
 		Util.takeScreenshot();
 		String homePageTitle = homePageSteps.getPageTitle();
-		logger.debug("HomePage title is: " + homePageTitle);
+		log.debug("HomePage title is: " + homePageTitle);
 		Assert.assertEquals(homePageTitle, "Automation Practice - Ultimate QA", "HomePage title does not match.");
-		logger.debug("HomePage title matches.");
+		log.debug("HomePage title matches.");
 		Assert.assertTrue(homePageSteps.isHeadingDisplayed(), "HomePage heading does not match.");
-		logger.debug("HomePage heading matches.");
+		log.debug("HomePage heading matches.");
 		Assert.assertTrue(homePageSteps.isSubHeadingDisplayed(), "HomePage subheading does not match.");
-		logger.debug("HomePage subheading matches.");
+		log.debug("HomePage subheading matches.");
 	}
 
 	// Scenario 2
@@ -64,11 +64,11 @@ public class HomePageTest {
 		Util.takeScreenshot();
 		Assert.assertTrue(homePageSteps.areAllContentLinksDisplayed(),
 				"All the HomePage Content Links are not getting displayed.");
-		logger.debug("All the HomePage Content links are getting displayed.");
+		log.debug("All the HomePage Content links are getting displayed.");
 		Assert.assertTrue(homePageSteps.areAllContentLinksEnabled(),
 				"All the HomePage Content Links are not in enabled condition.");
-		logger.debug("All the HomePage Content links are in enabled condition.");
+		log.debug("All the HomePage Content links are in enabled condition.");
 		Assert.assertTrue(homePageSteps.areAllContentLinksFunctioningCorrectly());
-		logger.debug("All the HomePage Content links are functioning correctly.");
+		log.debug("All the HomePage Content links are functioning correctly.");
 	}
 }
