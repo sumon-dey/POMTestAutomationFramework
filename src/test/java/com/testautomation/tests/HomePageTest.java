@@ -16,8 +16,8 @@ public class HomePageTest {
 	private String configPropertiesFileName;
 
 	/**
-	 * This method will run before every test present in the HomePageTest class.
-	 * Action involves setting up the preconditions to run the tests.
+	 * Runs before every test present in the HomePageTest class. Actions involve
+	 * setting up the preconditions to run the tests.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -32,8 +32,8 @@ public class HomePageTest {
 	}
 
 	/**
-	 * This method will run after every test present in the HomePageTest class.
-	 * Action involves cleaning up the test setup after each test execution.
+	 * Runs after every test present in the HomePageTest class. Actions involve
+	 * cleaning up the test setup after each test execution.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -44,11 +44,10 @@ public class HomePageTest {
 		homePageSteps.testCleanUp();
 	}
 
-	// Scenario 1
+	// Test Scenario 1
 	@Test(description = "To an user, HomePage headings and title should get correctly displayed.", priority = 1, retryAnalyzer = RetryAnalyzer.class)
 	public void homePage_HeadingAndTitleValidation_Test() {
 		homePageSteps.openURL(homePageSteps.properties.getProperty("HomePageUrl"));
-		Util.takeScreenshot();
 		String homePageTitle = homePageSteps.getPageTitle();
 		log.debug("HomePage title is: " + homePageTitle);
 		Assert.assertEquals(homePageTitle, "Automation Practice - Ultimate QA", "HomePage title does not match.");
@@ -59,11 +58,10 @@ public class HomePageTest {
 		log.debug("HomePage subheading matches.");
 	}
 
-	// Scenario 2
+	// Test Scenario 2
 	@Test(description = "For an user, all the HomePage content links should work correctly.", priority = 2)
 	public void homePage_contentLinksValidation_Test() {
 		homePageSteps.openURL(homePageSteps.properties.getProperty("HomePageUrl"));
-		Util.takeScreenshot();
 		Assert.assertTrue(homePageSteps.areAllContentLinksDisplayed(),
 				"All the HomePage Content Links are not getting displayed.");
 		log.debug("All the HomePage Content links are getting displayed.");

@@ -9,6 +9,16 @@ public class FileExceptionHandling {
 
 	private static final Logger log = Logger.getLogger(FileExceptionHandling.class);
 
+	/**
+	 * Calls the FileException custom exception class with different exception
+	 * messages depending on the exception caught.
+	 * 
+	 * @param throwable        A Throwable object
+	 * @param propertyFileName Name of the properties file
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
+	 */
 	public void handlePropertiesFileException(Throwable throwable, String propertyFileName) {
 		if (throwable instanceof FileNotFoundException) {
 			log.error("Properties file " + propertyFileName + " is not found in the classpath. \nException Message: "

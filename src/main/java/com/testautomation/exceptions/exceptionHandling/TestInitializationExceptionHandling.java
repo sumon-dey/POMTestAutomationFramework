@@ -13,7 +13,7 @@ public class TestInitializationExceptionHandling {
 	}
 
 	public void handleBrowserLaunchException(Throwable throwable, String message, String browserName) {
-		log.warn(message + browserName);
+		log.error(message + browserName);
 		throw new BrowserException(message + browserName);
 	}
 

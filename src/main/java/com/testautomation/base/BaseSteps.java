@@ -10,7 +10,6 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,17 +19,15 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.testautomation.exceptions.exceptionHandling.TestInitializationExceptionHandling;
-import com.testautomation.exceptions.FileException;
 import com.testautomation.exceptions.exceptionHandling.FileExceptionHandling;
+import com.testautomation.exceptions.exceptionHandling.TestInitializationExceptionHandling;
 import com.testautomation.util.Util;
 import com.testautomation.util.WebEventListener;
 
 /**
- * This is a base class for the test steps. It consists of actions which are
- * common to the test steps. All the test classes will inherit this class - its
- * properties and behavior
+ * Base class for the test steps. Consists of actions which are common to the
+ * test steps. The test classes will inherit this class - its properties and
+ * behavior. Inherits from the BasePage class.
  * 
  * @author Sumon Dey
  * @since 13/06/2020
@@ -48,27 +45,28 @@ public class BaseSteps extends BasePage {
 	private static final Logger log = Logger.getLogger(BaseSteps.class);
 
 	/**
-	 * This method will load the properties configuration file. It will also handle
-	 * related exceptions and make use of custom framework exception to display
-	 * relevant exception details. The need of using a custom framework exception is
-	 * to wrap the default exceptions with meaningful business-level exception
-	 * descriptions.
+	 * Loads the properties configuration file. Also handles related exceptions and
+	 * makes use of custom framework exception to display relevant exception
+	 * details. The need of using a custom framework exception is to wrap the
+	 * default exceptions with meaningful business-level exception descriptions.
 	 * 
+	 * @param Name of the Configuration Properties file
 	 * @author Sumon Dey
 	 * @since 13/06/2020
 	 * @version 0.1
-	 * @throws Exception
+	 * 
 	 */
 	public void loadConfigProperties(String configPropertiesFileName) {
 		try {
 			if (properties == null) {
 				propertyFileName = configPropertiesFileName;
+				log.debug("Configuration properties file to be loaded is: \"" + propertyFileName + "\".");
 				String propertyFilePath = System.getProperty("user.dir")
 						+ "/src/test/resources/com/testautomation/config/" + propertyFileName;
 				properties = new Properties();
 				inputStream = new FileInputStream(new File(propertyFilePath));
 				properties.load(inputStream);
-				log.debug("Configuration properties file is loaded successfully.");
+				log.debug("Configuration properties file \"" + propertyFileName + "\"is loaded successfully.");
 			}
 		} catch (Exception e) {
 			(new FileExceptionHandling()).handlePropertiesFileException(e, propertyFileName);
@@ -78,9 +76,9 @@ public class BaseSteps extends BasePage {
 	}
 
 	/**
-	 * This is a common method which cleans up stream resources after performing
-	 * null check.
+	 * Closes stream resources after performing null check operation.
 	 * 
+	 * @param stream Any stream object implementing the Closeable interface
 	 * @author Sumon Dey
 	 * @since 13/06/2020
 	 * @version 0.1
@@ -90,17 +88,18 @@ public class BaseSteps extends BasePage {
 		try {
 			if (stream != null) {
 				stream.close();
+				log.debug("Stream is closed successfully.");
 			}
 		} catch (Exception e) {
 			log.error(e);
 		}
+		log.info("Stream cleanup complete.");
 	}
 
 	/**
-	 * This is a common setup method which will form the base to initialize and
-	 * drive the tests. The functionalities provided by this method include calling
-	 * other methods to set up the browsers, set up the monitoring/logging for web
-	 * events and manage cookies/timeouts.
+	 * Forms the base to initialize and drive the tests. The functionalities
+	 * provided include calling other methods to set up the browsers, setting up the
+	 * monitoring/logging for web events and manage cookies/timeouts.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -109,7 +108,7 @@ public class BaseSteps extends BasePage {
 	public void testInitialization() {
 		try {
 			String browserName = properties.getProperty("Browser");
-			log.debug("Launched browser is: " + browserName);
+			log.debug("Browser(s) to be launched: " + browserName);
 			// We can use "WebDriverManager" to set-up the browser initialization process
 			// WebDriverManager.chromedriver().setup();
 			switch (browserName.toLowerCase()) {
@@ -127,70 +126,109 @@ public class BaseSteps extends BasePage {
 			driver = monitorAndLogWebEventSetup(driver);
 			manageCookiesAndTimeouts(driver);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 
 	/**
 	 * 
-	 * This method will take the WebDriver object, wrap it with EventFiringWebDriver
-	 * object (which will register WebDriverListener implementing class) to monitor
-	 * and log web events, and return it.
+	 * Takes the WebDriver object, wraps it with EventFiringWebDriver object (which
+	 * will register WebDriverListener implementing class) to monitor and log web
+	 * events, and returns it.
 	 * 
+	 * @param driver A WebDriver type object
+	 * @return eventFiringWebDriver A EventFiringWebDriver type object
 	 * @author Sumon Dey
 	 * @since 30/09/2020
 	 * @version 0.1
 	 * 
 	 */
 	public EventFiringWebDriver monitorAndLogWebEventSetup(WebDriver driver) {
-		eventFiringWebDriver = new EventFiringWebDriver(driver);
-		webEventListener = new WebEventListener();
-		eventFiringWebDriver.register(webEventListener);
+		try {
+			eventFiringWebDriver = new EventFiringWebDriver(driver);
+			webEventListener = new WebEventListener();
+			eventFiringWebDriver.register(webEventListener);
+			log.debug("WebDriverEventListener is registered.");
+		} catch (Exception e) {
+			log.error(e);
+		}
 		return eventFiringWebDriver;
 	}
 
 	/**
-	 * This method will initialize the browser driver for Chrome browser and launch
-	 * the Chrome browser (with capabilities)
+	 * Initializes the browser driver (chromedriver) for Chrome and launches Chrome
+	 * (with capabilities). To get the capabilities, it calls the getChromeOptions()
+	 * method.
 	 * 
-	 * @param driver
-	 * @return the driver object after adding the capabilties
+	 * @param driver A WebDriver type object
+	 * @return driver A WebDriver type object
+	 * @author Sumon Dey
+	 * @since 30/09/2020
+	 * @version 0.1
 	 */
 	public WebDriver chromeSetUp(WebDriver driver) {
 		try {
-			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver",
+					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
 			driver = new ChromeDriver(getChromeOptions());
 			log.debug("ChromeDriver has started.");
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		return driver;
-	}
-
-	public WebDriver firefoxSetUp(WebDriver driver) {
-		try {
-			System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
-			driver = new FirefoxDriver();
-			log.debug("FirefoxDriver has started.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return driver;
-	}
-
-	public void manageCookiesAndTimeouts(WebDriver driver) {
-		driver.manage().deleteAllCookies();
-		log.info("All cookies are deleted.");
-		driver.manage().timeouts().pageLoadTimeout(Util.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
-		driver.manage().timeouts().implicitlyWait(Util.IMPLICIT_WAIT, TimeUnit.SECONDS);
 	}
 
 	/**
-	 * This method will set up ChromeDriver-specific capabilities to configure and
-	 * drive a ChromeDriver session.
+	 * Initializes the browser driver (geckodriver) for Firefox and launches Firefox
 	 * 
-	 * @return ChromeOptions object (which will manage the capabilties specific to
-	 *         the browser session)
+	 * @param driver A WebDriver type object
+	 * @return driver A WebDriver type object
+	 * @author Sumon Dey
+	 * @since 30/09/2020
+	 * @version 0.1
+	 */
+	public WebDriver firefoxSetUp(WebDriver driver) {
+		try {
+			System.setProperty("webdriver.gecko.driver",
+					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "geckodriver.exe");
+			driver = new FirefoxDriver();
+			log.debug("FirefoxDriver has started.");
+		} catch (Exception e) {
+			log.error(e);
+		}
+		return driver;
+	}
+
+	/**
+	 * Deletes cookies and defines default Timeouts (PageLoadTimeout and
+	 * ImplicitWait)
+	 * 
+	 * @param driver A WebDriver type object
+	 * @author Sumon Dey
+	 * @since 30/09/2020
+	 * @version 0.1
+	 * 
+	 */
+	public void manageCookiesAndTimeouts(WebDriver driver) {
+		try {
+			driver.manage().deleteAllCookies();
+			log.info("All cookies are deleted.");
+			driver.manage().timeouts().pageLoadTimeout(Util.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(Util.IMPLICIT_WAIT, TimeUnit.SECONDS);
+		} catch (Exception e) {
+			log.error(e);
+		}
+	}
+
+	/**
+	 * Sets up ChromeDriver-specific capabilities to configure and drive a
+	 * ChromeDriver session.
+	 * 
+	 * @return chromeOptions A ChromeOptions object (which will manage the
+	 *         capabilties specific to the browser session)
+	 * @author Sumon Dey
+	 * @since 30/09/2020
+	 * @version 0.1
 	 */
 	public ChromeOptions getChromeOptions() {
 		ChromeOptions chromeOptions = null;
@@ -204,19 +242,19 @@ public class BaseSteps extends BasePage {
 			// Proxy proxy = new Proxy();
 			// proxy.setHttpProxy("myhttpproxy:3337");
 			// chromeOptions.setCapability("proxy", proxy);
-			// setting up download directory
+			/* Setting up default download directory */
 			Map<String, Object> prefs = new HashMap<String, Object>();
-			prefs.put("download.default_directory", "./downloads");
+			prefs.put("download.default_directory", System.getProperty("user.dir") + File.separator + "downloads");
 			chromeOptions.setExperimentalOption("prefs", prefs);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 		return chromeOptions;
 	}
 
 	/**
-	 * This method consists of common actions to perform cleanup activities after
-	 * the tests are run.
+	 * Consists of all the common actions required to perform cleanup activities
+	 * after the tests are run.
 	 * 
 	 * @author Sumon Dey
 	 * @since 13/06/2020
@@ -254,16 +292,18 @@ public class BaseSteps extends BasePage {
 	}
 
 	/**
-	 * This method will take URL as input and format it to remove the last forward
-	 * slash (if present). Sometimes, the url changes dynamically to add forward
-	 * slash(/) at the end and remaining times it doesn't. So, it should not matter
-	 * whether the forward slash is present at the end or not, as long as the
-	 * remaining url string remains as expected.
+	 * Takes URL as input and format its to remove the last forward slash (if
+	 * present). Sometimes, the URL changes dynamically to add forward slash(/) at
+	 * the end and remaining times it doesn't. So, it should not matter whether the
+	 * forward slash is present at the end or not, as long as the remaining URL
+	 * string remains as expected.
 	 * 
-	 * 
-	 * @param url
-	 * @param stringToMatch
-	 * @return
+	 * @param url           The url String to be formatted
+	 * @param stringToMatch The String to be matched with
+	 * @return url The formatted URL string
+	 * @author Sumon Dey
+	 * @since 13/06/2020
+	 * @version 0.1
 	 */
 	public String urlPatternMatcher(String url, String stringToMatch) {
 		Matcher matcher = Pattern.compile(stringToMatch + "\\/").matcher(url);

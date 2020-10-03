@@ -44,17 +44,17 @@ public class WebEventListener extends BaseSteps implements WebDriverEventListene
 
 	@Override
 	public void beforeNavigateBack(WebDriver driver) {
-		log.debug("Navigating back to the previous page");
+		log.debug("Navigating back to the previous page...");
 	}
 
 	@Override
 	public void afterNavigateBack(WebDriver driver) {
-		log.debug("Navigated back to the previous page");
+		log.debug("Navigated back to the previous page.");
 	}
 
 	@Override
 	public void beforeNavigateForward(WebDriver driver) {
-		log.debug("Navigating forward to the next page");
+		log.debug("Navigating forward to the next page...");
 	}
 
 	@Override
@@ -64,32 +64,32 @@ public class WebEventListener extends BaseSteps implements WebDriverEventListene
 
 	@Override
 	public void beforeNavigateRefresh(WebDriver driver) {
-		log.debug("Refreshing Page...");
+		log.debug("Refreshing WebPage...");
 	}
 
 	@Override
 	public void afterNavigateRefresh(WebDriver driver) {
-		log.debug("Page Refreshed");
+		log.debug("WebPage Refreshed.");
 	}
 
 	@Override
 	public void beforeFindBy(By by, WebElement element, WebDriver driver) {
-		log.debug("Trying to find Element By: " + by.toString());
+		log.debug("Trying to find Element using: " + by.toString());
 	}
 
 	@Override
 	public void afterFindBy(By by, WebElement element, WebDriver driver) {
-		log.debug("Successfully found Element By: " + by.toString());
+		log.debug("Successfully found Element using: " + by.toString());
 	}
 
 	@Override
 	public void beforeClickOn(WebElement element, WebDriver driver) {
-		log.debug("Trying to click on: " + element.toString());
+		log.debug("Trying to click on the element found. ");
 	}
 
 	@Override
 	public void afterClickOn(WebElement element, WebDriver driver) {
-		log.debug("Successfully clicked on: " + element.toString());
+		log.debug("Successfully clicked on the element. ");
 	}
 
 	@Override
@@ -124,8 +124,6 @@ public class WebEventListener extends BaseSteps implements WebDriverEventListene
 
 	@Override
 	public void onException(Throwable throwable, WebDriver driver) {
-		log.error("Exception occured: " + throwable);
-		Util.takeScreenshot();
 	}
 
 	@Override
