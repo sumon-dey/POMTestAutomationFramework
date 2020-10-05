@@ -9,8 +9,9 @@ import com.testautomation.base.BasePage;
 import lombok.Getter;
 
 /**
- * This class acts as a object repository (Page Object) and consists of the Page
- * Objects present in the Complicated Page.
+ * Subclass of the "BasePage" class and acts as an object repository. Consists
+ * of the Page Objects present in the "Complicated Page". Lombok has been used
+ * to auto-generate the getters for the fields.
  * 
  * @author Sumon Dey
  * @since 13/06/2020

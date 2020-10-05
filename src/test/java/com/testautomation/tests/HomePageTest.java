@@ -5,9 +5,9 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
 import com.testautomation.steps.HomePageSteps;
 import com.testautomation.util.RetryAnalyzer;
-import com.testautomation.util.Util;
 
 public class HomePageTest {
 
