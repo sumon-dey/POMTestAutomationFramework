@@ -29,10 +29,6 @@ public class HomePageSteps extends BaseSteps {
 	public HomePage homePage;
 	private static final Logger log = Logger.getLogger(HomePageSteps.class);
 
-	public HomePageSteps() {
-		super();
-	}
-
 	public boolean isHeadingDisplayed() {
 		homePage = new HomePage();
 		Util.takeScreenshot();
@@ -78,7 +74,7 @@ public class HomePageSteps extends BaseSteps {
 
 	/**
 	 * Checks all the functionalities of the link e.g. whether the links are
-	 * enabled, are not broken and navigate to the correct pages when clicked.
+	 * enabled, are not broken and can navigate to the correct pages when clicked.
 	 * 
 	 * @return boolean functionality working correctly or not
 	 * @author Sumon Dey
@@ -88,68 +84,54 @@ public class HomePageSteps extends BaseSteps {
 	public boolean areAllContentLinksFunctioningCorrectly() {
 		homePage = new HomePage();
 		clickOn(homePage.getBigPageWithManyElementsLink());
-		Assert.assertEquals(urlPatternMatcher(homePage.getCurrentUrl(), "complicated-page"),
-				"https://ultimateqa.com/complicated-page", "The current url is not matching");
-		log.debug("The current url is matching.");
-		Assert.assertEquals(homePage.getPageTitle(), "Complicated Page - Ultimate QA",
-				"The page title is not matching");
-		log.debug("The page title is matching");
-		Util.takeScreenshot();
+		checkCurrentURLForContentLinkValidation(homePage, "complicated-page");
+		checkCurrentPageTitleForContentLinkValidation(homePage, "Complicated Page - Ultimate QA");
 		navigateBack();
 		clickOn(homePage.getFakeLandingPageLink());
-		Assert.assertEquals(urlPatternMatcher(homePage.getCurrentUrl(), "fake-landing-page"),
-				"https://ultimateqa.com/fake-landing-page", "The current url is not matching");
-		log.debug("The current url is matching.");
-		Assert.assertEquals(homePage.getPageTitle(), "Fake landing page - Ultimate QA",
-				"The page title is not matching");
-		log.debug("The page title is matching");
-		Util.takeScreenshot();
+		checkCurrentURLForContentLinkValidation(homePage, "fake-landing-page");
+		checkCurrentPageTitleForContentLinkValidation(homePage, "Fake landing page - Ultimate QA");
 		navigateBack();
 		clickOn(homePage.getFakePricingPageLink());
-		Assert.assertEquals(urlPatternMatcher(homePage.getCurrentUrl(), "fake-pricing-page"),
-				"https://ultimateqa.com/automation/fake-pricing-page", "The current url is not matching");
-		log.debug("The current url is matching.");
-		Assert.assertEquals(homePage.getPageTitle(), "Fake pricing page - Ultimate QA",
-				"The page title is not matching");
-		log.debug("The page title is matching");
-		Util.takeScreenshot();
+		checkCurrentURLForContentLinkValidation(homePage, "automation/fake-pricing-page");
+		checkCurrentPageTitleForContentLinkValidation(homePage, "Fake pricing page - Ultimate QA");
 		navigateBack();
 		clickOn(homePage.getFillOutFormsLink());
-		Assert.assertEquals(urlPatternMatcher(homePage.getCurrentUrl(), "filling-out-forms"),
-				"https://ultimateqa.com/filling-out-forms", "The current url is not matching");
-		log.debug("The current url is matching.");
-		Assert.assertEquals(homePage.getPageTitle(), "Filling Out Forms - Ultimate QA",
-				"The page title is not matching");
-		log.debug("The page title is matching");
-		Util.takeScreenshot();
+		checkCurrentURLForContentLinkValidation(homePage, "filling-out-forms");
+		checkCurrentPageTitleForContentLinkValidation(homePage, "Filling Out Forms - Ultimate QA");
 		navigateBack();
 		clickOn(homePage.getLearnHowToAutomateApplicationLink());
-		Assert.assertEquals(urlPatternMatcher(homePage.getCurrentUrl(), "sample-application-lifecycle-sprint-1"),
-				"https://ultimateqa.com/sample-application-lifecycle-sprint-1", "The current url is not matching");
-		log.debug("The current url is matching.");
-		Assert.assertEquals(homePage.getPageTitle(), "Sample Application Lifecycle - Sprint 1 - Ultimate QA",
-				"The page title is not matching");
-		log.debug("The page title is matching");
-		Util.takeScreenshot();
+		checkCurrentURLForContentLinkValidation(homePage, "sample-application-lifecycle-sprint-1");
+		checkCurrentPageTitleForContentLinkValidation(homePage,
+				"Sample Application Lifecycle - Sprint 1 - Ultimate QA");
 		navigateBack();
 		clickOn(homePage.getLoginAutomationLink());
-		Assert.assertEquals(urlPatternMatcher(homePage.getCurrentUrl(), "sign_in"),
-				"https://courses.ultimateqa.com/users/sign_in", "The current url is not matching");
-		log.debug("The current url is matching.");
-		Assert.assertEquals(homePage.getPageTitle(), "Ultimate QA", "The page title is not matching");
-		log.debug("The page title is matching");
-		Util.takeScreenshot();
+		checkCurrentURLForContentLinkValidation(homePage, "users/sign_in");
+		checkCurrentPageTitleForContentLinkValidation(homePage, "Ultimate QA");
 		navigateBack();
 		clickOn(homePage.getInteractionsWithSimpleElementsLink());
-		Assert.assertEquals(urlPatternMatcher(homePage.getCurrentUrl(), "simple-html-elements-for-automation"),
-				"https://ultimateqa.com/simple-html-elements-for-automation", "The current url is not matching");
-		log.debug("The current url is matching.");
-		Assert.assertEquals(homePage.getPageTitle(), "Simple HTML Elements For Automation - Ultimate QA",
-				"The page title is not matching");
-		log.debug("The page title is matching");
-		Util.takeScreenshot();
+		checkCurrentURLForContentLinkValidation(homePage, "simple-html-elements-for-automation");
+		checkCurrentPageTitleForContentLinkValidation(homePage, "Simple HTML Elements For Automation - Ultimate QA");
 		navigateBack();
 		return true;
+	}
+
+	public void checkCurrentURLForContentLinkValidation(HomePage homePage, String resource) {
+		Util.takeScreenshot();
+		if (resource.equals("users/sign_in")) {
+			Assert.assertEquals(urlPatternMatcher(homePage.getCurrentUrl(), resource),
+					"https://courses.ultimateqa.com/" + resource, "The current url is not matching");
+		} else {
+			Assert.assertEquals(urlPatternMatcher(homePage.getCurrentUrl(), resource),
+					"https://ultimateqa.com/" + resource, "The current url is not matching");
+		}
+		log.debug("The current url is matching.");
+
+	}
+
+	public void checkCurrentPageTitleForContentLinkValidation(HomePage homePage, String expectedPageTitle) {
+		Util.takeScreenshot();
+		Assert.assertEquals(homePage.getPageTitle(), expectedPageTitle, "The page title is not matching");
+		log.debug("The page title is matching");
 	}
 
 }
