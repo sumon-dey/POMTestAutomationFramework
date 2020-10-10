@@ -50,7 +50,8 @@ public class BaseSteps extends BasePage {
 	 * details. The need of using a custom framework exception is to wrap the
 	 * default exceptions with meaningful business-level exception descriptions.
 	 * 
-	 * @param Name of the Configuration Properties file
+	 * @param Name
+	 *            of the Configuration Properties file
 	 * @author Sumon Dey
 	 * @since 13/06/2020
 	 * @version 0.1
@@ -78,7 +79,8 @@ public class BaseSteps extends BasePage {
 	/**
 	 * Closes stream resources after performing null check operation.
 	 * 
-	 * @param stream Any stream object implementing the Closeable interface
+	 * @param stream
+	 *            Any stream object implementing the Closeable interface
 	 * @author Sumon Dey
 	 * @since 13/06/2020
 	 * @version 0.1
@@ -107,7 +109,12 @@ public class BaseSteps extends BasePage {
 	 */
 	public void testInitialization() {
 		try {
-			String browserName = properties.getProperty("Browser");
+			String browserName = "";
+			if (System.getProperty("Browser") != null && !System.getProperty("Browser").isEmpty()) {
+				browserName = System.getProperty("Browser");
+			} else {
+				browserName = properties.getProperty("Browser");
+			}
 			log.debug("Browser(s) to be launched: " + browserName);
 			// We can use "WebDriverManager" to set-up the browser initialization process
 			// WebDriverManager.chromedriver().setup();
@@ -127,6 +134,7 @@ public class BaseSteps extends BasePage {
 			manageCookiesAndTimeouts(driver);
 		} catch (Exception e) {
 			log.error(e);
+			throw e;
 		}
 	}
 
@@ -136,7 +144,8 @@ public class BaseSteps extends BasePage {
 	 * will register WebDriverListener implementing class) to monitor and log web
 	 * events, and returns it.
 	 * 
-	 * @param driver A WebDriver type object
+	 * @param driver
+	 *            A WebDriver type object
 	 * @return eventFiringWebDriver A EventFiringWebDriver type object
 	 * @author Sumon Dey
 	 * @since 30/09/2020
@@ -160,7 +169,8 @@ public class BaseSteps extends BasePage {
 	 * (with capabilities). To get the capabilities, it calls the getChromeOptions()
 	 * method.
 	 * 
-	 * @param driver A WebDriver type object
+	 * @param driver
+	 *            A WebDriver type object
 	 * @return driver A WebDriver type object
 	 * @author Sumon Dey
 	 * @since 30/09/2020
@@ -181,7 +191,8 @@ public class BaseSteps extends BasePage {
 	/**
 	 * Initializes the browser driver (geckodriver) for Firefox and launches Firefox
 	 * 
-	 * @param driver A WebDriver type object
+	 * @param driver
+	 *            A WebDriver type object
 	 * @return driver A WebDriver type object
 	 * @author Sumon Dey
 	 * @since 30/09/2020
@@ -203,7 +214,8 @@ public class BaseSteps extends BasePage {
 	 * Deletes cookies and defines default Timeouts (PageLoadTimeout and
 	 * ImplicitWait)
 	 * 
-	 * @param driver A WebDriver type object
+	 * @param driver
+	 *            A WebDriver type object
 	 * @author Sumon Dey
 	 * @since 30/09/2020
 	 * @version 0.1
@@ -298,8 +310,10 @@ public class BaseSteps extends BasePage {
 	 * forward slash is present at the end or not, as long as the remaining URL
 	 * string remains as expected.
 	 * 
-	 * @param url           The url String to be formatted
-	 * @param stringToMatch The String to be matched with
+	 * @param url
+	 *            The url String to be formatted
+	 * @param stringToMatch
+	 *            The String to be matched with
 	 * @return url The formatted URL string
 	 * @author Sumon Dey
 	 * @since 13/06/2020
