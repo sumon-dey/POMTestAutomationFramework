@@ -13,30 +13,26 @@ public class FileExceptionHandling {
 	 * Calls the FileException custom exception class with different exception
 	 * messages depending on the exception caught.
 	 * 
-	 * @param throwable        A Throwable object
-	 * @param propertyFileName Name of the properties file
+	 * @param throwable
+	 *            A Throwable object
+	 * @param propertyFileName
+	 *            Name of the properties file
 	 * @author Sumon Dey
 	 * @since 13/06/2020
 	 * @version 0.1
 	 */
 	public void handlePropertiesFileException(Throwable throwable, String propertyFileName) {
 		if (throwable instanceof FileNotFoundException) {
-			log.error("Properties file " + propertyFileName + " is not found in the classpath. \nException Message: "
-					+ throwable.getMessage());
-			throw new FileException("Properties file \"" + propertyFileName
-					+ "\" is not found in the classpath. \nException Message: " + throwable.getMessage(), throwable,
-					ErrorCodes.VALIDATION_PARSE_ERROR);
+			log.error("Properties file " + propertyFileName + " is not found in the classpath.");
+			throw new FileException("Properties file \"" + propertyFileName + "\" is not found in the classpath.",
+					throwable, ErrorCodes.VALIDATION_PARSE_ERROR);
 		} else if (throwable instanceof IOException) {
-			log.error("I/O Exception while loading the Properties file \"" + propertyFileName
-					+ "\" \nException Message: " + throwable.getMessage());
-			throw new FileException("I/O Exception while loading the Properties file \"" + propertyFileName
-					+ "\" \nException Message: " + throwable.getMessage(), throwable,
+			log.error("I/O Exception while loading the Properties file \"" + propertyFileName);
+			throw new FileException("I/O Exception while loading the Properties file \"" + propertyFileName, throwable,
 					ErrorCodes.VALIDATION_PARSE_ERROR);
 		} else {
-			log.error("Properties file \"" + propertyFileName + "\" could not be loaded. \nException Message: "
-					+ throwable.getMessage());
-			throw new FileException("Properties file \"" + propertyFileName
-					+ "\" could not be loaded. \nException Message: " + throwable.getMessage(), throwable,
+			log.error("Properties file \"" + propertyFileName + "\" could not be loaded.");
+			throw new FileException("Properties file \"" + propertyFileName + "\" could not be loaded.", throwable,
 					ErrorCodes.VALIDATION_PARSE_ERROR);
 		}
 	}
