@@ -6,7 +6,9 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import com.testautomation.base.BasePage;
 import com.testautomation.base.BaseSteps;
+import com.testautomation.pages.ComplicatedPage;
 import com.testautomation.pages.HomePage;
 import com.testautomation.util.Util;
 
@@ -132,6 +134,16 @@ public class HomePageSteps extends BaseSteps {
 		Util.takeScreenshot();
 		Assert.assertEquals(homePage.getPageTitle(), expectedPageTitle, "The page title is not matching");
 		log.debug("The page title is matching");
+	}
+
+	public void searchUsingSearchIcon(String searchText, String expectedUrl) {
+		homePage = new HomePage();
+		clickOn(homePage.getSearchIcon());
+		enterText(homePage.getSearchTextBox(), searchText);
+		clickOn(homePage.getComplicatedPageLink());
+		if (searchText.equals("Complicated Page")) {
+			Assert.assertEquals(driver.getCurrentUrl(), expectedUrl);
+		}
 	}
 
 }

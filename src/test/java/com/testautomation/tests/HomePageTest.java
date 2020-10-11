@@ -6,6 +6,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.testautomation.base.BasePage;
+import com.testautomation.pages.ComplicatedPage;
 import com.testautomation.steps.HomePageSteps;
 import com.testautomation.util.RetryAnalyzer;
 
@@ -70,5 +72,12 @@ public class HomePageTest {
 		log.debug("All the HomePage Content links are in enabled condition.");
 		Assert.assertTrue(homePageSteps.areAllContentLinksFunctioningCorrectly());
 		log.debug("All the HomePage Content links are functioning correctly.");
+	}
+
+	// Test Scenario 3
+	@Test(description = "An user should be able to search successfully using the search icon.", priority = 2)
+	public void homePage_searchFunctionality_Test() {
+		homePageSteps.openURL(homePageSteps.properties.getProperty("HomePageUrl"));
+		homePageSteps.searchUsingSearchIcon("Complicated Page", "https://ultimateqa.com/complicated-page/");
 	}
 }

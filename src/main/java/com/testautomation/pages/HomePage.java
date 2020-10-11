@@ -58,6 +58,15 @@ public class HomePage extends BasePage {
 	@FindBy(xpath = "//a[text()='Interactions with simple elements']")
 	private WebElement interactionsWithSimpleElementsLink;
 
+	@FindBy(xpath = "//*[@id='et_search_icon']")
+	private WebElement searchIcon;
+
+	@FindBy(xpath = "//input[@id='jetpack-instant-search__box-input-1']")
+	private WebElement searchTextBox;
+
+	@FindBy(xpath = "//a[text()='Complicated Page']")
+	private WebElement complicatedPageLink;
+
 	// ***************************************
 	// Initializing the Page Factory
 	// ***************************************

@@ -40,8 +40,8 @@ public class BaseSteps extends BasePage {
 	public Properties properties;
 	private InputStream inputStream;
 	private String propertyFileName;
-	public static EventFiringWebDriver eventFiringWebDriver;
-	public static WebEventListener webEventListener;
+	private static EventFiringWebDriver eventFiringWebDriver;
+	private static WebEventListener webEventListener;
 	private static final Logger log = Logger.getLogger(BaseSteps.class);
 
 	/**
@@ -296,6 +296,11 @@ public class BaseSteps extends BasePage {
 	public void clickOn(WebElement webElement) {
 		waitForWebElementToBeVisibleAndClickable(webElement);
 		webElement.click();
+	}
+
+	public void enterText(WebElement webElement, String textToEnter) {
+		waitForWebElementToBeVisibleAndClickable(webElement);
+		webElement.sendKeys(textToEnter);
 	}
 
 	private void waitForWebElementToBeVisibleAndClickable(WebElement webElement) {
